@@ -1,7 +1,7 @@
 ﻿Program Rpg;
 Uses Crt;
 // Переменные
-Var PlayerHeal,PlayerDamage, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
+Var PlayerHeal,PlayerDamage, PlayerExp, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
 PlayerComand:string;
 number, num: integer;
 Weapons: array[1..2] of integer;
@@ -20,6 +20,10 @@ procedure FightC();
     repeat
          healMob:= healMob - WeaponDamage ;
          Writeln('Вы атакуете,');
+         if (healMob = 0) or (healMob < 0) then
+           begin
+              healMob:= 0
+           end;
          Writeln('У противника осталось ', healMob);
          if (healMob = 0) or (healMob < 0) then
            begin
@@ -32,6 +36,7 @@ procedure FightC();
           if PlayerHeal > healMob then
              begin
                Writeln('Игрок одержал победу');
+               Writeln('У вас: ', PlayerExp, ' опыта');
              end
           else
              begin
@@ -49,6 +54,7 @@ procedure woundedWolf();
   damageMob:=20;
   healMob:=70;
   nameMob:='Раненый Волк';
+  PlayerExp:= PlayerExp + 15;
   FightC();
   end;
 
@@ -62,6 +68,7 @@ procedure fightForestSpirit();
   damageMob:=30;
   healMob:=145;
   nameMob:='Лесной дух';
+  PlayerExp:= PlayerExp + 30;
   FightC();
 
   end;
@@ -78,6 +85,7 @@ procedure FightRabbit();
   damageMob:=2;
   healMob:=50;
   nameMob:='Обычный заец';
+  PlayerExp:= PlayerExp + 15;
   FightC();
   
   end;
@@ -93,6 +101,7 @@ begin
   damageMob:=10;
   healMob:=100;
   nameMob:= 'Здоровый волк';
+  PlayerExp:= PlayerExp + 25;
    FightC();
 end;
 
@@ -418,6 +427,7 @@ begin
     TextColor(Red);
         PlayerHeal:=100;
         PlayerDamage:=30;
+        PlayerExp:= 0;
         Weapons[1]:= 50;
         Weapons[2]:= 35;
         WeaponUp:= 8;
@@ -431,6 +441,7 @@ begin
     TextColor(Red);
         PlayerHeal:= 90;
         PlayerDamage:=20;
+        PlayerExp:= 0;
         Weapons[1]:= 45;
         Weapons[2]:= 30;
         WeaponUp:= 5;
@@ -444,6 +455,7 @@ begin
     TextColor(Red);
         PlayerHeal:=70;
         PlayerDamage:=10;
+        PlayerExp:= 0;
         Weapons[1]:= 40;
         Weapons[2]:= 25;
         WeaponUp:= 3;
@@ -459,6 +471,7 @@ begin
         Writeln('Не правильно указано, был выбран 1 ваиант');
         PlayerHeal:=100;
         PlayerDamage:=30;
+        PlayerExp:= 0;
         Weapons[1]:= 50;
         Weapons[2]:= 35;
         WeaponUp:= 8;
@@ -497,6 +510,7 @@ begin
      'Качаться','качаться','Rfxfnmcz','rfxfnmcz': UpDamageWeap();
      'Инвентарь','инвентарь','Bydtynfhm','bydtynfhm': Invent();
      'Оружие', 'оружие', 'Jhe;bt', 'jhe;bt': weapon();
+     'Опыт': Writeln(PlayerExp);
      'Лечиться', 'лечиться', 'Ktxbnmcz', 'ktxbnmcz': UpHeal();
      'Конец', 'конец', 'Rjytw', 'rjytw':conez();
      'Очистить', 'очистить', 'Jxbcnbnm', 'jxbcnbnm':cleanerText();

@@ -56,7 +56,7 @@ procedure inSave();
   procedure conezAndSave();
   begin
     outSave();
-    Writeln('Игра окончена');
+    Writeln('Игра окончена!!!');
     endProgram:=true;
   end;
 
@@ -67,10 +67,10 @@ procedure inSave();
  Randomize;
   Writeln('Вы рeшили убежать');
   decisionEscape:=Random(2);
-  if nameMob = 'Обычный заец' then
+  if nameMob = 'Обычный заяц' then
     begin
       Writeln('Бежать от насколько слабого существа, та вы трус');
-      Writeln('Вас убил бог смелости');
+      Writeln('Вас убил бог Смелости');
       PlayerHeal:=0;
     end;
   if decisionEscape = 1 then
@@ -87,7 +87,7 @@ procedure inSave();
    end;
  end;
 
- // процедура для личения
+ // процедура для лечения
 procedure UpHeal();
 begin
   TextColor(TextCL[6,1]);
@@ -101,22 +101,22 @@ begin
         begin
         PlayerHeal += 10;
         BotleHeal[1]:= BotleHeal[1] - 1;
-        Writeln('У вас осталося ',BotleHeal[1]);
-        Writeln('У  ваш характеристика ',PlayerHeal);
+        Writeln('У вас осталось ',BotleHeal[1]);
+        Writeln('Ваша характеристика ',PlayerHeal);
         end;
   2: If BotleHeal[2] > 0 then 
         begin
         PlayerHeal += 30;
         BotleHeal[2]:= BotleHeal[2] - 1;
-        Writeln('У вас осталося ',BotleHeal[2]);
-        Writeln('У  ваш характеристика ',PlayerHeal);
+        Writeln('У вас осталось ',BotleHeal[2]);
+        Writeln('Ваша характеристика ',PlayerHeal);
         end;
   3: If BotleHeal[3] > 0 then 
         begin
         PlayerHeal += 75;
         BotleHeal[3]:= BotleHeal[3] - 1;
         Writeln('У вас осталося ',BotleHeal[3]);
-        Writeln('У  ваш характеристика ',PlayerHeal);
+        Writeln('Ваша характеристика ',PlayerHeal);
         end;
   else Writeln('Ошибка');
   end;
@@ -168,7 +168,7 @@ be:
            begin
               healMob:= 0
            end;
-         Writeln('У противника осталось ', healMob);
+         Writeln('У противника осталось ', healMob, ' здоровья');
          Writeln('Он говорит вам:');
          KamolovFrass();
          if (healMob = 0) or (healMob < 0) then
@@ -177,7 +177,7 @@ be:
            end;
           Writeln(nameMob,' атакует в ответ ');
           PlayerHeal:= PlayerHeal - damageMob;
-          Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
+          Writeln('У вас осталося ',PlayerHeal, ' здоровья');
           GOTO be;
     until (PlayerHeal = 0) or (healMob = 0);
           if PlayerHeal > healMob then
@@ -187,7 +187,7 @@ be:
              end
           else
              begin
-               Writeln(nameMob,' Одержал победу');
+               Writeln(nameMob,' одержал победу');
              end;
   end;
 //Все мобы
@@ -198,7 +198,7 @@ begin
     ClrScr();
       Writeln('Вы встретили боса Адского Камолова');
       Writeln('От него не убежать');
-      Writeln('Бог смелости награждает вас');
+      Writeln('Бог Смелости награждает вас');
       Writeln('Прибавка к здоровьи 200');
       PlayerHeal:=PlayerHeal + 200;
       Writeln('Также дарует свой меч');
@@ -323,7 +323,7 @@ procedure FightRabbit();
 // Ключ моба = 3 (numberMob)
   damageMob:=2;
   healMob:=50;
-  nameMob:='Обычный заец';
+  nameMob:='Обычный заяц';
   PlayerExp:= PlayerExp + 15;
   FightC();
   
@@ -339,7 +339,7 @@ begin
 // Ключ моба = 1 (numberMob)
   damageMob:=10;
   healMob:=100;
-  nameMob:= 'Здоровый волк';
+  nameMob:= 'Большой волк';
   PlayerExp:= PlayerExp + 25;
    FightC();
 end;
@@ -358,8 +358,8 @@ numberMob:= Random(5)+ 1;
  TextColor(TextCL[7,1]);
  case numberMob of 
       1:begin 
-          Writeln('Вы встретили Здорового волка');
-          nameMob:= 'Здоровый волк';
+          Writeln('Вы встретили Большого волка');
+          nameMob:= 'Большой волк';
           Writeln('Ваши действия:');
           wolf:
           TextColor(Green);
@@ -561,7 +561,7 @@ procedure tavern();
               TextColor(green);
               BotleDamage += 1;
               PlayerExp -= 5;
-              Writeln('Вы купили одну баночку для улутшения силы');
+              Writeln('Вы купили одну баночку для улучшения силы');
               Writeln('У вас: ', PlayerExp, ' опыта');
             end
             else 
@@ -787,7 +787,7 @@ var i: integer;
                 TextCL[7,1]:= Yellow; //Бой
                 TextCL[8,1]:= 15; // Таверна
             end;
-            else Writeln('Вы не правильно выбрали ((');
+            else Writeln('Вы не правильно ввели ((');
 					end;
 	end;
 	2: SelectColor();
@@ -838,9 +838,9 @@ procedure starting();
   Writeln('      НАЧАЛО');
   Writeln('------------------');
   Writeln('Вибирете уровень сложности:');
-  Writeln('   1-легко');
-  Writeln('   2-нормальна');
-  Writeln('   3-тяжолоя');
+  Writeln('   1 - легкий');
+  Writeln('   2 - нормальный');
+  Writeln('   3 - тяжёлый');
 end;
 
 procedure ConsoleHelp();
@@ -935,7 +935,7 @@ procedure UpDamageWeap();
           BotleWeapon:= BotleWeapon - 1;
           WeaponDamage := Weapons[1];
           Writeln('У вас осталося: ',BotleWeapon);
-          Writeln('У  ваc характеристика: ',Weapons[2]);
+          Writeln('Ваша характеристика: ',Weapons[2]);
           end
         else
           begin
@@ -948,7 +948,7 @@ procedure UpDamageWeap();
           PlayerDamage:=PlayerDamage  + 1;
           BotleDamage:=BotleDamage - 1;
           Writeln('У вас осталося: ',BotleDamage);
-          Writeln('У  ваc характеристика: ',PlayerDamage);
+          Writeln('Ваша характеристика: ',PlayerDamage);
           fist();
           end
         else
@@ -1037,12 +1037,12 @@ begin
         BotleHeal[2]:= 1;
         BotleHeal[3]:= 0;
         ClrScr();
-        Writeln('                       Вы выбрали тяжолый уровень сложности');
+        Writeln('                       Вы выбрали тяжёлый уровень сложности');
         end;
     else
       begin
       TextColor(9);
-        Writeln('                     Не правильно указано, был выбран 1 ваиант');
+        Writeln('                     Не правильно указано, был выбран 1 вариант');
         PlayerHeal:=100;
         PlayerDamage:=30;
         PlayerExp:= 0;
@@ -1057,7 +1057,7 @@ begin
 end;
 
 
-//O programe
+//about programe
 procedure about();
   begin
   TextColor(12);
@@ -1074,7 +1074,7 @@ procedure about();
   Writeln('                        ==============================');
   Writeln('');
   TextColor(White);
-  Writeln('        Игра создана с помощю 2 человек: Ляшенко Ростислав и Cиренко Евгений');
+  Writeln('        Игра создана с помощю 2 человек: Ляшенко Ростислав и Cиренко Евгения');
   Writeln('');
   Writeln('');
   end;

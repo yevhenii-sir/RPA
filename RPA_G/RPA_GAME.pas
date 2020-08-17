@@ -478,8 +478,8 @@ end;
 procedure Comand(ComandAnswer:string);
 begin
   Case ComandAnswer of 
-    'help': ConsoleHelp();
-    'Характеристики_игрока':
+    'help', 'Помощь', 'помощь', 'Help': ConsoleHelp();
+    'Характеристики_игрока', 'характеристики_игрока','{fhfrnthbcnbrb_buhjrf','[fhfrnthbcnbrb_buhjrf':
     begin
     TextColor(TextCL[2,1]);
       Writeln('Здоровье игрока - ', PlayerHeal);
@@ -489,14 +489,14 @@ begin
         end;
       Writeln('Урон игрока - ', WeaponDamage);
     end;
-     'Качаться': UpDamageWeap();
-     'Инвентарь': Invent();
-     'Оружие': weapon();
-     'Лечиться': UpHeal();
-     'Конец':conez();
-     'Очистить':cleanerText();
-     'Сменить_цвет':SelectColor();
-     'Бой':Fight();
+     'Качаться','качаться','Rfxfnmcz','rfxfnmcz': UpDamageWeap();
+     'Инвентарь','инвентарь','Bydtynfhm','bydtynfhm': Invent();
+     'Оружие', 'оружие', 'Jhe;bt', 'jhe;bt': weapon();
+     'Лечиться', 'лечиться', 'Ktxbnmcz', 'ktxbnmcz': UpHeal();
+     'Конец', 'конец', 'Rjytw', 'rjytw':conez();
+     'Очистить', 'очистить', 'Jxbcnbnm', 'jxbcnbnm':cleanerText();
+     'Сменить_цвет', 'сменить_цвет', 'Cvtybnm_wdtn', 'cvtybnm_wdtn':SelectColor();
+     'Бой', 'бой', '<jq', ',jq':Fight();
     else Writeln('Ошибка');
   end;
 end;

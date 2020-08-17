@@ -25,7 +25,7 @@ procedure FightC();
            begin
               break;
            end;
-          Writeln(nameMob,' атакает в ответ ');
+          Writeln(nameMob,' атакует в ответ ');
           PlayerHeal:= PlayerHeal - damageMob;
           Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
     until (PlayerHeal = 0) or (healMob = 0);
@@ -35,7 +35,7 @@ procedure FightC();
              end
           else
              begin
-               Writeln(nameMob,'Одержал победу');
+               Writeln(nameMob,' Одержал победу');
              end;
   end;
 
@@ -50,7 +50,6 @@ procedure woundedWolf();
   healMob:=70;
   nameMob:='Раненый Волк';
   FightC();
-
   end;
 
 procedure fightForestSpirit();
@@ -173,6 +172,12 @@ numberMob:= Random(3)+ 1;
 end;
 end;
 
+procedure Cheat();
+//процедура для тестировки игры
+begin
+  Writeln('Вы активировали чит-мод, теперь у вас 9999 очков здоровья');
+  playerHeal:=9999;
+end;
 //процедура для смены цвета
 procedure chooseColor(var x, y:integer);
   var i: integer;
@@ -497,6 +502,7 @@ begin
      'Очистить', 'очистить', 'Jxbcnbnm', 'jxbcnbnm':cleanerText();
      'Сменить_цвет', 'сменить_цвет', 'Cvtybnm_wdtn', 'cvtybnm_wdtn':SelectColor();
      'Бой', 'бой', '<jq', ',jq':Fight();
+     'Чит':Cheat();
     else Writeln('Ошибка');
   end;
 end;

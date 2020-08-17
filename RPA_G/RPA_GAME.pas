@@ -4,6 +4,7 @@ Uses Crt;
 Var PlayerHeal,PlayerDamage, PlayerExp, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
 PlayerComand, Names, ng:string;
 number, num, a: integer;
+var endProgram:boolean;
 t:text;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
@@ -45,6 +46,13 @@ procedure inSave();
   Readln(t, TextCL[1,8], TextCL[1,9], TextCL[1,10], TextCL[1,11], TextCL[1,12], TextCL[1,13], TextCL[1,14]);
   Readln(t, TextCL[1,15], TextCL[1,16]);
   Close(t);
+  end;
+
+  procedure conezAndSave();
+  begin
+    outSave();
+    Writeln('Игра окончена');
+    endProgram:=true;
   end;
 
  //процедура бега
@@ -863,6 +871,7 @@ begin
   TextColor(TextCL[1,15]);
  Writeln('Загрузить - загрузить собственый процес');
   TextColor(TextCL[1,16]);
+  Writeln('Прощай - закрыть программу и сохранить прогресс');
 end;
 
 //пороцедура для вывода содержимого инвентаря
@@ -1112,6 +1121,7 @@ begin
      'Input','Загрузить','загрузить','pfuhepbnm','Pfuhepbnm': inSave();
      'О_программе','о_программе','J_ghjuhfvvt','j_ghjuhfvvt': about();
      'Чит':Cheat();
+     'Прощай','прощай','ghjofq','Ghjofq':conezAndSave();
     else Writeln('Ошибка');
   end;
 end;
@@ -1136,6 +1146,10 @@ begin
   Inp();
   Readln(PlayerComand);
   Comand(PlayerComand);
+  if endProgram = true then
+    begin
+      exit;
+    end;
  until PlayerHeal < 0;
- 
+ exit;
 end.

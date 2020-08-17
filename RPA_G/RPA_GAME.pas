@@ -28,7 +28,7 @@ begin
   Writeln('    Кинжал');
   Writeln('Батончики: ');
   Writeln('    Количество баночек силы: ', BotleDamage);
-  Writeln('    Кол-во баночек здоровья: ', BotleHeal); 
+  Writeln('    Кол-во баночек здоровья: '); 
   Writeln('           Маленькая -', BotleHeal[1]);
   Writeln('           Cредняя - ', BotleHeal[2]);
   Writeln('           Большая - ', BotleHeal[3]);
@@ -166,6 +166,9 @@ begin
         Weapons[1]:= 50;
         Weapons[2]:= 35;
         WeaponUp:= 8;
+        BotleHeal[1]:= 3;
+        BotleHeal[2]:= 2;
+        BotleHeal[3]:= 2;
        end;
     2: begin
         PlayerHeal:= 90;
@@ -173,6 +176,9 @@ begin
         Weapons[1]:= 45;
         Weapons[2]:= 30;
         WeaponUp:= 5;
+        BotleHeal[1]:= 2;
+        BotleHeal[2]:= 1;
+        BotleHeal[3]:=1;
        end;
     3: begin
         PlayerHeal:=70;
@@ -180,6 +186,9 @@ begin
         Weapons[1]:= 40;
         Weapons[2]:= 25;
         WeaponUp:= 3;
+        BotleHeal[1]:= 2;
+        BotleHeal[2]:= 1;
+        BotleHeal[3]:= 0;
         end;
     else
       begin
@@ -189,6 +198,9 @@ begin
         Weapons[1]:= 50;
         Weapons[2]:= 35;
         WeaponUp:= 8;
+        BotleHeal[1]:= 3;
+        BotleHeal[2]:= 2;
+        BotleHeal[3]:= 2;
       end;
    end;
 end;

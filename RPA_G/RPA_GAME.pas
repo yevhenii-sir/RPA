@@ -1,21 +1,57 @@
 ﻿Program Rpg;
 Uses Crt;
 // Переменные
-Var PlayerHeal,PlayerDamage,diferent, BotleHeal, BotleDamage:integer;
+Var PlayerHeal,PlayerDamage, WeaponDamage, diferent, BotleHeal, BotleDamage:integer;
 PlayerComand:string;
 // процедуры
 // процедура для вызова надписей команд 
 // обучения 
 procedure ConsoleHelp();
 begin
-  Writeln('Вся игра состоит из команд до главнои консоли');
+ Writeln('Вся игра состоит из команд до главнои консоли');
  Writeln('Характеристики_игрока - показывает характеристику игрока ');
+ Writeln('Инвентарь - показывает оружие и батончики которые есть в наличии');
+ Writeln('Оружие - выбор оружия');
  Writeln('Качаться - увелечения урона на 1, но если есть баночка силы ');
  Writeln('Лечиться - Востановления здоровья игрока, в зависимости от баночки');
  Writeln('Бой - начатия боя з мобами ');
  Writeln('Не стоить запоминать все команды, если что-то забудешь напиши help в консоль');
 end;
-// процедура для ввода команд
+//пороцедура для вывода содержимого инвентаря
+procedure Invent();
+begin
+	Writeln('Оружие: ');
+	Writeln('    Меч');
+	Writeln('    Кинжал');
+	Writeln('Батончики: ');
+	Writeln('    Количество батончиков силы: ', BotleDamage);
+	Writeln('    Кол-во батончиков здоровья: ', BotleHeal);
+end;
+//процедура для выбора оружия
+procedure weapon();
+begin
+  Writeln('Выбирите оружие: ');
+  Writeln('   Меч - 30 урона');
+  Writeln('   Кинжал - 20 урона');
+//PlayerDamage это урон от кулаков
+  Writeln('   Кулаки - ', PlayerDamage, ' урона');
+  Write('Введите названия оружия: ');
+  Readln(PlayerComand);
+  Case PlayerComand of
+  'Меч': WeaponDamage:= 30;
+  'Кинжал': WeaponDamage:= 20;
+  'Кулаки': WeaponDamage:= PlayerDamage;
+  end;
+  Writeln('Теперь ваш урон составляєт: ', WeaponDamage);
+end; 
+//процедура для обновления показаний урона для кулаков
+procedure fist();
+begin
+  if WeaponDamage = PlayerDamage - 1 then
+    begin
+      WeaponDamage:= PlayerDamage;
+  end;
+end;
 procedure Inp();
 begin
   Writeln('Введите команду');
@@ -28,7 +64,8 @@ begin
       PlayerDamage:=PlayerDamage  + 1;
       BotleDamage:=BotleDamage - 1;
       Writeln('У вас осталося ',BotleDamage);
-      Writeln('У  ваш характеристика ',PlayerDamage);
+      Writeln('У  ваc характеристика для кулаков ',PlayerDamage);
+      fist();
     end
    else
     begin
@@ -86,11 +123,15 @@ begin
     'Характеристики_игрока':
     begin
       Writeln('Здоровье игрока - ', PlayerHeal);
-      Writeln('Урон игрока - ', PlayerDamage);
+      if WeaponDamage = 0 then
+        begin
+          WeaponDamage:= PlayerDamage;
+        end;
+      Writeln('Урон игрока - ', WeaponDamage);
     end;
-    
      'Качаться': UpDamage();
-     
+     'Инвентарь': Invent();
+     'Оружие': weapon();
      'Лечиться': UpHeal();
      'Конец':conez();
     else Writeln('Ошибка');
@@ -102,6 +143,7 @@ begin
   BotleHeal:= 3;
   BotleDamage:=3;
   PlayerHeal:= 100;
+  //Главнвя переменая для урона теперь WeaponDamage
   PlayerDamage:= 5;
   Writeln('------------------');
   Writeln('НАЧАЛО');
@@ -109,7 +151,7 @@ begin
   Writeln('Вибирете уровень сложности');
   Writeln('1-легко');
   Writeln('2-нормальна');
-  Writeln('1-тяжолоя');
+  Writeln('3-тяжолоя');
   Readln(diferent);
   differ(diferent);
  Writeln('Начнём наше путишествия');
@@ -122,4 +164,6 @@ begin
   Readln(PlayerComand);
   Comand(PlayerComand);
  until PlayerHeal < 0;
+ 
+
 end.

@@ -2,16 +2,51 @@
 Uses Crt;
 // Переменные
 Var PlayerHeal,PlayerDamage, PlayerExp, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
-PlayerComand, Names:string;
-number, num: integer;
+PlayerComand, Names, ng:string;
+number, num, a: integer;
+t:text;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
-TextCL: array[1..8, 1..14] of integer;
+TextCL: array[1..8, 1..16] of integer;
 //глобальные перемены для моба(улучшения системы боя)
  var damageMob,healMob:integer;
  var nameMob:string;
  var decisionEscape:integer;
  
+//процедура сохранения
+procedure outSave();
+  begin
+  Write('Введите имя для сохранения: ');
+  Readln(ng);
+  ng += '.txt';
+  assign(t, ng);
+  rewrite(t);
+  Writeln(t, PlayerHeal, ' ', PlayerDamage,' ',PlayerExp,' ', BotleDamage, ' ', BotleHeal[1],' ', BotleHeal[2],' ', BotleHeal[3],' ', BotleWeapon);
+  Writeln(t, Weapons[1], ' ', Weapons[2], ' ', WeaponUp,' ', Names);
+  Writeln(t, TextCL[2,1], ' ', TextCL[3,1], ' ', TextCL[4,1], ' ', TextCL[5,1], ' ', TextCL[6,1], ' ', TextCL[7,1], ' ', TextCL[8,1]);
+  Writeln(t, TextCL[1,1], ' ',TextCL[1,2], ' ',TextCL[1,3], ' ',TextCL[2,14], ' ',TextCL[1,5], ' ',TextCL[1,6], ' ',TextCL[1,7]);
+  Writeln(t, TextCL[1,8], ' ',TextCL[1,9], ' ',TextCL[1,10], ' ',TextCL[1,11], ' ',TextCL[1,12], ' ',TextCL[1,13], ' ',TextCL[1,14]);
+  Writeln(t, TextCL[1,15], ' ', TextCL[1,16]);
+  close(t);
+  end;
+
+//процедура загрузки
+procedure inSave();
+  begin
+  Write('Введите имя загрузки: ');
+  Readln(ng);
+  ng += '.txt';
+  Assign(t, ng);
+  Reset(t);
+  Readln(t, PlayerHeal, PlayerDamage,PlayerExp, BotleDamage, BotleHeal[1], BotleHeal[2], BotleHeal[3], BotleWeapon);
+  Readln(t, Weapons[1], Weapons[2], WeaponUp, Names);
+  Readln(t, TextCL[2,1], TextCL[3,1],  TextCL[4,1],  TextCL[5,1], TextCL[6,1], TextCL[7,1], TextCL[8,1]);
+  Readln(t, TextCL[1,1], TextCL[1,2], TextCL[1,3], TextCL[2,14], TextCL[1,5], TextCL[1,6], TextCL[1,7]);
+  Readln(t, TextCL[1,8], TextCL[1,9], TextCL[1,10], TextCL[1,11], TextCL[1,12], TextCL[1,13], TextCL[1,14]);
+  Readln(t, TextCL[1,15], TextCL[1,16]);
+  Close(t);
+  end;
+
  //процедура бега
  procedure escape();
  var ranDamage:integer; // случайный урон по игроку в попытке убежать
@@ -606,7 +641,7 @@ procedure tavern();
 procedure chooseColor(var x, y:integer);
   var i: integer;
   begin
-  for i:= 1 to 14 do begin
+  for i:= 1 to 16 do begin
   TextCL[x,i]:= y;
   end;
   end;
@@ -671,14 +706,14 @@ var i, n: integer;
 				Readln(number);
 				Case number of 
 					1: Begin
-    					for i:= 1 to 14 do 
+    					for i:= 1 to 16 do 
       				begin
         					if (i mod 2)=0 then
           				begin
             				TextCL[1, i]:= Red;
           				end;
       				end;
-      				for i:= 1 to 14 do 
+      				for i:= 1 to 16 do 
       					begin
         					if (i mod 2) <> 0 then
           				begin
@@ -694,14 +729,14 @@ var i, n: integer;
     						TextCL[8,1]:= 7; // Таверна
   						end;
   					2: Begin
-  					   for i:= 1 to 14 do 
+  					   for i:= 1 to 16 do 
       				begin
         					if (i mod 2)=0 then
           				begin
             				TextCL[1, i]:= 13;
           				end;
       				end;
-      				for i:= 1 to 14 do 
+      				for i:= 1 to 16 do 
       					begin
         					if (i mod 2) <> 0 then
           				begin
@@ -717,14 +752,14 @@ var i, n: integer;
     						TextCL[8,1]:= 3; // Таверна
   					end;
             3: Begin
-               for i:= 1 to 14 do 
+               for i:= 1 to 16 do 
               begin
                   if (i mod 2)=0 then
                   begin
                     TextCL[1, i]:= 2;
                   end;
               end;
-              for i:= 1 to 14 do 
+              for i:= 1 to 16 do 
                 begin
                   if (i mod 2) <> 0 then
                   begin
@@ -756,14 +791,14 @@ end;
 procedure startCL();
   var i, n: integer;
   begin
-    for i:= 1 to 14 do 
+    for i:= 1 to 16 do 
       begin
         if (i mod 2)=0 then
           begin
             TextCL[1, i]:= Red;
           end;
       end;
-      for i:= 1 to 14 do 
+      for i:= 1 to 16 do 
       begin
         if (i mod 2) <> 0 then
           begin
@@ -824,6 +859,10 @@ begin
   TextColor(TextCL[1,13]);
  Writeln('Не стоить запоминать все команды, если что-то забудешь напиши help в консоль');
   TextColor(TextCL[1,14]);
+ Writeln('Сохранить - сохранить собственый процес');
+  TextColor(TextCL[1,15]);
+ Writeln('Загрузить - загрузить собственый процес');
+  TextColor(TextCL[1,16]);
 end;
 
 //пороцедура для вывода содержимого инвентаря
@@ -858,7 +897,7 @@ procedure UpDamageWeap();
     Writeln('Выбирите оружие которое вам нужно улутшить: ');
     Writeln('   Меч - ', Weapons[1], ' урона        +',WeaponUp);
     Writeln('   Кинжал - ', Weapons[2], ' урона     +',WeaponUp);
-    Writeln('   Кулаки - ', PlayerDamage, ' урона     +1');
+    Writeln('   Кулаки - ', PlayerDamage, ' урона   +1');
     Readln(PlayerComand);
     Case PlayerComand of
       'Меч': Begin 
@@ -1069,6 +1108,8 @@ begin
      'Очистить', 'очистить', 'Jxbcnbnm', 'jxbcnbnm':cleanerText();
      'Интерфейс', 'интерфейс', 'Bynthatqc', 'bynthatqc': Theame();
      'Бой', 'бой', '<jq', ',jq':Fight();
+     'Save', 'Сохранить', 'сохранить', 'Cj[hfybnm', 'cj[hfybnm': outSave();
+     'Input','Загрузить','загрузить','pfuhepbnm','Pfuhepbnm': inSave();
      'О_программе','о_программе','J_ghjuhfvvt','j_ghjuhfvvt': about();
      'Чит':Cheat();
     else Writeln('Ошибка');

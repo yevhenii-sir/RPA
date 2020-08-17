@@ -6,7 +6,7 @@ PlayerComand, Names:string;
 number, num: integer;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
-TextCL: array[1..7, 1..2] of integer;
+TextCL: array[1..8, 1..14] of integer;
 //глобальные перемены для моба(улучшения системы боя)
  var damageMob,healMob:integer;
  var nameMob:string;
@@ -198,16 +198,19 @@ Randomize;
 numberMob:= Random(3)+ 1;
 //конец механизму
  TextColor(TextCL[7,1]);
- TextColor(yellow);
  case numberMob of 
       1:begin 
           Writeln('Вы встретили Здорового волка');
           nameMob:= 'Здоровый волк';
-          wolf:
           Writeln('Ваши действия:');
+          wolf:
+          TextColor(Green);
           Writeln('    Атаковать');
+          TextColor(7);
           Writeln('    Лечиться');
-          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
+          TextColor(12);
+          Writeln('    Убежать (возможность убежать 50%),при неудачи будет случайный урон по игроку');
+          TextColor(Yellow);
           Readln(fightComand);
           
           case fightComand of 
@@ -231,9 +234,13 @@ numberMob:= Random(3)+ 1;
           Writeln('Вы встретили Обычного зайца');
           Writeln('Ваши действия:');
           rabbit:
+          TextColor(Green);
           Writeln('    Атаковать');
+          TextColor(7);
           Writeln('    Лечиться');
-          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
+          TextColor(12);
+          Writeln('    Убежать (возможность убежать 50%), при неудачи будет случайный урон по игроку');
+          TextColor(Yellow);
           Readln(fightComand);
           
           case fightComand of
@@ -257,9 +264,13 @@ numberMob:= Random(3)+ 1;
           Writeln('Вы встретили Лесного духа');
           Writeln('Ваши действия:');
           spirit:
+          TextColor(Green);
           Writeln('    Атаковать');
+          TextColor(7);
           Writeln('    Лечиться');
-          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
+          TextColor(12);
+          Writeln('    Убежать (возможность убежать 50%), при неудачи будет случайный урон по игроку');
+          TextColor(Yellow);
           Readln(fightComand);
           
           case fightComand of
@@ -285,9 +296,13 @@ numberMob:= Random(3)+ 1;
            Writeln('Вы встретили Раненого волк');
           Writeln('Ваши действия:');
           wounWolf:
+          TextColor(Green);
           Writeln('    Атаковать');
+          TextColor(7);
           Writeln('    Лечиться');
-          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
+          TextColor(12);
+          Writeln('    Убежать (возможность убежать 50%),при неудачи будет случайный урон по игроку');
+          TextColor(Yellow);
           Readln(fightComand);
           
           case fightComand of
@@ -322,12 +337,13 @@ end;
 //процедура для таверны
 procedure tavern();
   begin
+    TextColor(TextCL[8,1]);
     Writeln('У вас: ', PlayerExp, ' опыта');
     Writeln('Товары: ');
-    Writeln('1 - Баночка улутшения для оружия стоит 20 опыта');
-    Writeln('2 - Баночка улутшения для силы стоит 5 опыта');
-    Writeln('3 - Баночки увеличения жизни');
-    Writeln('4 - Розслабляющий напиток стоит 15 опыта');
+    Writeln('      1 - Баночка улутшения для оружия стоит 20 опыта');
+    Writeln('      2 - Баночка улутшения для силы стоит 5 опыта');
+    Writeln('      3 - Баночки увеличения жизни');
+    Writeln('      4 - Розслабляющий напиток стоит 15 опыта');
     Readln(number);
     Case number of
       1: begin
@@ -362,9 +378,9 @@ procedure tavern();
           end;
       3: begin
             Writeln('Выбирите: ');
-            Writeln('1 - Маленькая баночка: стоимость 10');
-            Writeln('2 - Средняя баночка: стоимость 20');
-            Writeln('3 - Большая баночка: стоимость 30');
+            Writeln('      1 - Маленькая баночка: стоимость 10 опыта');
+            Writeln('      2 - Средняя баночка: стоимость 20 опыта');
+            Writeln('      3 - Большая баночка: стоимость 30 опыта');
             Readln(number);
             Case number of
             1: begin
@@ -452,6 +468,7 @@ Writeln('4 - Оружие');
 Writeln('5 - Качаться');
 Writeln('6 - Лечиться');
 Writeln('7 - Бой');
+Writeln('8 - Таверна');
 Readln(number);
 Writeln('Выбирите цвет: ');
 Writeln('1 - LightBlue');
@@ -484,43 +501,78 @@ Case num of
 end;
 end;
 
+//Начальный цвет
+procedure startCL();
+  var i, n: integer;
+  begin
+    for i:= 1 to 14 do 
+      begin
+        if (i mod 2)=0 then
+          begin
+            TextCL[1, i]:= Red;
+          end;
+      end;
+      for i:= 1 to 14 do 
+      begin
+        if (i mod 2) <> 0 then
+          begin
+            TextCL[1, i]:= White;
+          end;
+      end;
+    TextCL[2,1]:= 7; //Характеристики
+    TextCL[3,1]:= 7; //Инвентарь
+    TextCL[4,1]:= 7; //Оружие
+    TextCL[5,1]:= 7; //Качаться
+    TextCL[6,1]:= 7; //Лечиться
+    TextCL[7,1]:= Yellow; //Бой
+    TextCL[8,1]:= 7; // Таверна
+  end;
+
 //процедура старту игры
 procedure starting();
-var i, n: integer;
-begin
-  for i:= 1 to 6 do 
-      begin
-        for n:=1 to 2 do begin
-        TextCL[i,n] := White; //изначальный цвет текста
-        end;
-      end;
+  begin
+  startCL();
+  Writeln('');
   TextColor(White);
   PlayerDamage:= 5;
   Writeln('------------------');
-  Writeln('НАЧАЛО');
+  Writeln('      НАЧАЛО');
   Writeln('------------------');
-  Writeln('Вибирете уровень сложности');
-  Writeln('1-легко');
-  Writeln('2-нормальна');
-  Writeln('3-тяжолоя');
+  Writeln('Вибирете уровень сложности:');
+  Writeln('   1-легко');
+  Writeln('   2-нормальна');
+  Writeln('   3-тяжолоя');
 end;
 
 procedure ConsoleHelp();
 begin
  TextColor(TextCL[1,1]);
  Writeln('Вся игра состоит из команд до главнои консоли');
+  TextColor(TextCL[1,2]);
  Writeln('Характеристики_игрока - показывает характеристику игрока ');
+  TextColor(TextCL[1,3]);
  Writeln('Инвентарь - показывает оружие и батончики которые есть в наличии');
+  TextColor(TextCL[1,4]);
  Writeln('Оружие - выбор оружия');
+  TextColor(TextCL[1,5]);
  Writeln('Таверна - вы здесь можете купить баночек за опыт');
+  TextColor(TextCL[1,6]);
  Writeln('Качаться - увелечения урона для любого з оружий, но если есть баночек силы ');
+  TextColor(TextCL[1,7]);
  Writeln('Лечиться - Востановления здоровья игрока, в зависимости от баночки');
+  TextColor(TextCL[1,8]);
  Writeln('Бой - начатия боя з мобами ');
- Writeln('Не стоить запоминать все команды, если что-то забудешь напиши help в консоль');
+  TextColor(TextCL[1,9]);
  Writeln('Очистить - очищает екран, от всех событий(текста)');
+  TextColor(TextCL[1,10]);
  Writeln('Сменить_цвет - позволяет выбрать цвет текста');
+  TextColor(TextCL[1,11]);
  Writeln('Опыт - показывает текущий опыт игрока');
- Writeln('О_програме - разроботчики игры');
+  TextColor(TextCL[1,12]);
+ Writeln('О_программе - разроботчики игры');
+  TextColor(TextCL[1,13]);
+ Writeln('Не стоить запоминать все команды, если что-то забудешь напиши help в консоль');
+  TextColor(TextCL[1,14]);
 end;
 
 //пороцедура для вывода содержимого инвентаря
@@ -624,6 +676,7 @@ begin
     WeaponDamage:= Weapons[1];
     end;
   end;
+  TextColor(Green);
   Writeln('Теперь ваш урон составляєт: ', WeaponDamage);
   Writeln('Урон при бое с противником не всегда равен точному.');
   Writeln('Может быть большим или меньшим в пределе разумного');
@@ -631,6 +684,7 @@ end;
 
 procedure Inp();
 begin
+  TextColor(10);
   Writeln('Введите команду, ',Names);
 end;
 
@@ -640,7 +694,7 @@ Procedure differ(x:integer);
 begin
   case x of 
     1: begin
-    TextColor(Red);
+    TextColor(Green);
         PlayerHeal:=100;
         PlayerDamage:=30;
         PlayerExp:= 0;
@@ -651,10 +705,10 @@ begin
         BotleHeal[2]:= 2;
         BotleHeal[3]:= 2;
         ClrScr();
-        Writeln('Вы выбрали легкий уровень сложности');
+        Writeln('                       Вы выбрали легкий уровень сложности');
        end;
     2: begin
-    TextColor(Red);
+    TextColor(9);
         PlayerHeal:= 90;
         PlayerDamage:=20;
         PlayerExp:= 0;
@@ -665,10 +719,10 @@ begin
         BotleHeal[2]:= 1;
         BotleHeal[3]:=1;
         ClrScr();
-        Writeln('Вы выбрали средний уровень сложности');
+        Writeln('                       Вы выбрали средний уровень сложности');
        end;
     3: begin
-    TextColor(Red);
+    TextColor(12);
         PlayerHeal:=70;
         PlayerDamage:=10;
         PlayerExp:= 0;
@@ -679,12 +733,12 @@ begin
         BotleHeal[2]:= 1;
         BotleHeal[3]:= 0;
         ClrScr();
-        Writeln('Вы выбрали тяжолый уровень сложности');
+        Writeln('                       Вы выбрали тяжолый уровень сложности');
         end;
     else
       begin
-      TextColor(Red);
-        Writeln('Не правильно указано, был выбран 1 ваиант');
+      TextColor(9);
+        Writeln('                     Не правильно указано, был выбран 1 ваиант');
         PlayerHeal:=100;
         PlayerDamage:=30;
         PlayerExp:= 0;
@@ -746,7 +800,7 @@ begin
     'Характеристики_игрока', 'характеристики_игрока','{fhfrnthbcnbrb_buhjrf','[fhfrnthbcnbrb_buhjrf':
     begin
     TextColor(TextCL[2,1]);
-      Writeln('Здоровье игрока - ', PlayerHeal);
+      Writeln('Здоровье игрока - ', PlayerHeal, ' хп');
       if WeaponDamage = 0 then
         begin
           WeaponDamage:= PlayerDamage;
@@ -763,7 +817,7 @@ begin
      'Очистить', 'очистить', 'Jxbcnbnm', 'jxbcnbnm':cleanerText();
      'Сменить_цвет', 'сменить_цвет', 'Cvtybnm_wdtn', 'cvtybnm_wdtn':SelectColor();
      'Бой', 'бой', '<jq', ',jq':Fight();
-     'О_програме','о_програме','J_ghjuhfvt','j_ghjuhfvt': about();
+     'О_программе','о_программе','J_ghjuhfvvt','j_ghjuhfvvt': about();
      'Чит':Cheat();
     else Writeln('Ошибка');
   end;
@@ -775,11 +829,15 @@ begin
  starting();
  Readln(diferent);
  differ(diferent);
- Writeln('Начнём наше путишествия');
- Writeln('обучения');
+ Writeln('                           Начнём наше путишествия');
+ Writeln('');
+ Writeln('                                  Oбучения');
  ConsoleHelp();
- Writeln('Обучения завершено');
- Writeln('Начало'); 
+ TextColor(Green);
+ Writeln('');
+ Writeln('                              Обучения завершено');
+ Writeln('                                    Начало'); 
+ TextColor(Red);
  repeat
   Inp();
   Readln(PlayerComand);

@@ -14,19 +14,10 @@ TextCL: array[1..7, 1..2] of integer;
 // процедура для вызова надписей команд 
 // обучения 
 //Все мобы
-
-//**Здоровый волк**
-//Уровень моба: низький 
-//Здоровье: 100
-//Урон 10
-// Ключ моба = 1 (numberMob)
-//процедура боя Игрока и Здоровго Волка
-procedure FightWolf();
-begin
-  damageMob:=10;
-  healMob:=100;
-  nameMob:= 'Здоровый волк';
-   repeat
+procedure FightC();
+// этот код не трогать главная часть системы боя
+  begin
+    repeat
          healMob:= healMob - WeaponDamage ;
          Writeln('Вы атакуете,');
          Writeln('У противника осталось ', healMob);
@@ -34,7 +25,7 @@ begin
            begin
               break;
            end;
-          Writeln('Противник атакает в ответ ');
+          Writeln(nameMob,' атакает в ответ ');
           PlayerHeal:= PlayerHeal - damageMob;
           Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
     until (PlayerHeal = 0) or (healMob = 0);
@@ -46,12 +37,76 @@ begin
              begin
                Writeln(nameMob,'Одержал победу');
              end;
+  end;
+
+procedure woundedWolf();
+  begin
+//     Раненый Волк
+// Уровень моба: низький уровень
+// Здоровье: 70
+// Урон 20
+// Ключ моба = 4 (numberMob)
+  damageMob:=20;
+  healMob:=70;
+  nameMob:='Раненый Волк';
+  FightC();
+
+  end;
+
+procedure fightForestSpirit();
+  begin
+//     Лесной дух
+// Уровень моба: средний уровень
+// Здоровье: 145
+// Урон: 30
+// Ключ моба = 2 (numberMob)
+  damageMob:=30;
+  healMob:=145;
+  nameMob:='Лесной дух';
+  FightC();
+
+  end;
+
+
+
+procedure FightRabbit();
+  begin
+//     Обычный заец
+// Уровень моба: низький уровень
+// Здоровье: 50
+// Урон 2
+// Ключ моба = 3 (numberMob)
+  damageMob:=2;
+  healMob:=50;
+  nameMob:='Обычный заец';
+  FightC();
+  
+  end;
+
+//процедура боя Игрока и Здоровго Волка
+procedure FightWolf();
+begin
+    //**Здоровый волк**
+//Уровень моба: низький 
+//Здоровье: 100
+//Урон 10
+// Ключ моба = 1 (numberMob)
+  damageMob:=10;
+  healMob:=100;
+  nameMob:= 'Здоровый волк';
+   FightC();
 end;
 
 // процедура боя между игроком и мобом
-procedure Fight(numberMob:integer);
+procedure Fight();
 begin
 var fightComand:string;
+var numberMob:integer;
+//механизм случайного проттвника, отвечает за всё переменная numberMob;
+//начало механизму
+Randomize;
+numberMob:= Random(3)+ 1;
+//конец механизму
  TextColor(TextCL[7,1]);
  TextColor(yellow);
  case numberMob of 
@@ -60,16 +115,61 @@ var fightComand:string;
           nameMob:= 'Здоровый волк';
           Writeln('Ваши действия:');
           Writeln('    Атаковать');
-          Writeln('    Лечиться');
+ //         Writeln('    Лечиться');
           Readln(fightComand);
           
           case fightComand of 
             'Атаковать':
               begin
                 FightWolf();        
-           end;
+              end;
          end;
- end;
+        end;
+      3:begin
+          Writeln('Вы встретили Обычного зайца');
+          Writeln('Ваши действия:');
+          Writeln('    Атаковать');
+ //         Writeln('    Лечиться');
+          Readln(fightComand);
+          
+          case fightComand of
+            'Атаковать':
+              begin
+                FightRabbit();
+              end;
+          end;
+       end;
+      2:begin
+          Writeln('Вы встретили Лесного духа');
+          Writeln('Ваши действия:');
+          Writeln('    Атаковать');
+ //         Writeln('    Лечиться');
+          Readln(fightComand);
+          
+          case fightComand of
+            'Атаковать':
+              begin
+                fightForestSpirit();
+              end;
+              
+      
+          end;
+       end;
+      4:begin
+           Writeln('Вы встретили Раненого волк');
+          Writeln('Ваши действия:');
+          Writeln('    Атаковать');
+ //         Writeln('    Лечиться');
+          Readln(fightComand);
+          
+          case fightComand of
+            'Атаковать':
+              begin
+                woundedWolf();
+              end;
+      
+          end;
+        end;
 end;
 end;
 
@@ -191,8 +291,8 @@ procedure UpDamageWeap();
   begin
     TextColor(TextCL[5,1]);
     Writeln('Выбирите оружие которое вам нужно улутшить: ');
-    Writeln('   Меч - ', Weapons[1], 'урона       +', WeaponUp);
-    Writeln('   Кинжал - ', Weapons[2], ' урона   +', WeaponUp);
+    Writeln('   Меч - ', Weapons[1], ' урона       +' , WeaponUp);
+    Writeln('   Кинжал - ', Weapons[2], ' урона   + ', WeaponUp);
     Writeln('   Кулаки - ', PlayerDamage, ' урона   +1');
     Readln(PlayerComand);
     Case PlayerComand of
@@ -396,7 +496,7 @@ begin
      'Конец':conez();
      'Очистить':cleanerText();
      'Сменить_цвет':SelectColor();
-     'Бой':Fight(1);
+     'Бой':Fight();
     else Writeln('Ошибка');
   end;
 end;

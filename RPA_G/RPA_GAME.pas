@@ -574,6 +574,10 @@ procedure tavern();
                     Writeln('У вас не хватает средств !!!');
                   end;
                end;
+              else begin 
+                    TextColor(Red);
+                    Writeln('Вы неправильно ввели ((');
+              end;
              end; 
          end;
       4: begin
@@ -591,6 +595,10 @@ procedure tavern();
               Writeln('У вас не хватает средств !!!');
             end;
           end;
+      else begin 
+              TextColor(Red);
+              Writeln('Вы неправильно ввели ((');
+           end;
       end;
   end;
 
@@ -598,13 +606,12 @@ procedure tavern();
 procedure chooseColor(var x, y:integer);
   var i: integer;
   begin
-  for i:= 1 to 2 do begin
+  for i:= 1 to 14 do begin
   TextCL[x,i]:= y;
   end;
   end;
-
-// процедура для выбора места приминеня цвета
-Procedure SelectColor();
+  
+  Procedure SelectColor();
 begin
 Writeln('Где вы хотите изменить цвет?'); 
 Writeln('1 - Главное меню');
@@ -646,6 +653,104 @@ Case num of
     end;
 end;
 end;
+
+// Theame
+procedure Theame();
+var i, n: integer;
+	begin
+		Writeln('Что вы хотите изменить: ');
+		Writeln('   1 - Тему');
+		Writeln('   2 - Сменить цвет одельной вкладки');
+		Readln(number);
+		Case number of
+			1: begin
+				Writeln('Выберете тему:');
+				Writeln('   1 - White and Red');
+				Writeln('   2 - LightRed and LightCyan');
+        Writeln('   3 - Green and LightCyan');
+				Readln(number);
+				Case number of 
+					1: Begin
+    					for i:= 1 to 14 do 
+      				begin
+        					if (i mod 2)=0 then
+          				begin
+            				TextCL[1, i]:= Red;
+          				end;
+      				end;
+      				for i:= 1 to 14 do 
+      					begin
+        					if (i mod 2) <> 0 then
+          				begin
+            				TextCL[1, i]:= White;
+         			   end;
+     					 end; 
+    						TextCL[2,1]:= 7; //Характеристики
+    						TextCL[3,1]:= 7; //Инвентарь
+    						TextCL[4,1]:= 7; //Оружие
+    						TextCL[5,1]:= 7; //Качаться
+    						TextCL[6,1]:= 7; //Лечиться
+    						TextCL[7,1]:= Yellow; //Бой
+    						TextCL[8,1]:= 7; // Таверна
+  						end;
+  					2: Begin
+  					   for i:= 1 to 14 do 
+      				begin
+        					if (i mod 2)=0 then
+          				begin
+            				TextCL[1, i]:= 13;
+          				end;
+      				end;
+      				for i:= 1 to 14 do 
+      					begin
+        					if (i mod 2) <> 0 then
+          				begin
+            				TextCL[1, i]:= 11;
+         			   end;
+     					 end; 
+    						TextCL[2,1]:= 3; //Характеристики
+    						TextCL[3,1]:= 3; //Инвентарь
+    						TextCL[4,1]:= 3; //Оружие
+    						TextCL[5,1]:= 3; //Качаться
+    						TextCL[6,1]:= 3; //Лечиться
+    						TextCL[7,1]:= Yellow; //Бой
+    						TextCL[8,1]:= 3; // Таверна
+  					end;
+            3: Begin
+               for i:= 1 to 14 do 
+              begin
+                  if (i mod 2)=0 then
+                  begin
+                    TextCL[1, i]:= 2;
+                  end;
+              end;
+              for i:= 1 to 14 do 
+                begin
+                  if (i mod 2) <> 0 then
+                  begin
+                    TextCL[1, i]:= 11;
+                 end;
+               end; 
+                TextCL[2,1]:= 15; //Характеристики
+                TextCL[3,1]:= 15; //Инвентарь
+                TextCL[4,1]:= 15; //Оружие
+                TextCL[5,1]:= 15; //Качаться
+                TextCL[6,1]:= 15; //Лечиться
+                TextCL[7,1]:= Yellow; //Бой
+                TextCL[8,1]:= 15; // Таверна
+            end;
+            else Writeln('Вы не правильно выбрали ((');
+					end;
+	end;
+	2: SelectColor();
+  else begin 
+              TextColor(Red);
+              Writeln('Вы неправильно ввели ((');
+       end;
+end;
+end;
+// процедура для выбора места приминеня цвета
+
 
 //Начальный цвет
 procedure startCL();
@@ -711,7 +816,7 @@ begin
   TextColor(TextCL[1,9]);
  Writeln('Очистить - очищает екран, от всех событий(текста)');
   TextColor(TextCL[1,10]);
- Writeln('Сменить_цвет - позволяет выбрать цвет текста');
+ Writeln('Интерфейс - позволяет выбрать цвет текста');
   TextColor(TextCL[1,11]);
  Writeln('Опыт - показывает текущий опыт игрока');
   TextColor(TextCL[1,12]);
@@ -751,9 +856,9 @@ procedure UpDamageWeap();
   begin
     TextColor(TextCL[5,1]);
     Writeln('Выбирите оружие которое вам нужно улутшить: ');
-    Writeln('   Меч - ', Weapons[1], ' урона       +' , WeaponUp);
-    Writeln('   Кинжал - ', Weapons[2], ' урона   + ', WeaponUp);
-    Writeln('   Кулаки - ', PlayerDamage, ' урона   +1');
+    Writeln('   Меч - ', Weapons[1], ' урона        +',WeaponUp);
+    Writeln('   Кинжал - ', Weapons[2], ' урона     +',WeaponUp);
+    Writeln('   Кулаки - ', PlayerDamage, ' урона     +1');
     Readln(PlayerComand);
     Case PlayerComand of
       'Меч': Begin 
@@ -898,6 +1003,7 @@ begin
    end;
 end;
 
+
 //O programe
 procedure about();
   begin
@@ -961,7 +1067,7 @@ begin
      'Лечиться', 'лечиться', 'Ktxbnmcz', 'ktxbnmcz': UpHeal();
      'Конец', 'конец', 'Rjytw', 'rjytw':conez();
      'Очистить', 'очистить', 'Jxbcnbnm', 'jxbcnbnm':cleanerText();
-     'Сменить_цвет', 'сменить_цвет', 'Cvtybnm_wdtn', 'cvtybnm_wdtn':SelectColor();
+     'Интерфейс', 'интерфейс', 'Bynthatqc', 'bynthatqc': Theame();
      'Бой', 'бой', '<jq', ',jq':Fight();
      'О_программе','о_программе','J_ghjuhfvvt','j_ghjuhfvvt': about();
      'Чит':Cheat();

@@ -7,6 +7,9 @@ number, num: integer;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
 TextCL: array[1..7, 1..2] of integer;
+//глобальные перемены для моба(улучшения системы боя)
+ var damageMob,healMob:integer;
+ nameMob:string;
 // процедуры
 // процедура для вызова надписей команд 
 // обучения 
@@ -17,20 +20,44 @@ TextCL: array[1..7, 1..2] of integer;
 //Здоровье: 100
 //Урон 10
 // Ключ моба = 1 (numberMob)
-
+//процедура боя Игрока и Здоровго Волка
+procedure FightWolf();
+begin
+  damageMob:=10;
+  healMob:=100;
+  nameMob:= 'Здоровый волк';
+   repeat
+         healMob:= healMob - WeaponDamage ;
+         Writeln('Вы атакуете,');
+         Writeln('У противника осталось ', healMob);
+         if (healMob = 0) or (healMob < 0) then
+           begin
+              break;
+           end;
+          Writeln('Противник атакает в ответ ');
+          PlayerHeal:= PlayerHeal - damageMob;
+          Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
+    until (PlayerHeal = 0) or (healMob = 0);
+          if PlayerHeal > healMob then
+             begin
+               Writeln('Игрок одержал победу');
+             end
+          else
+             begin
+               Writeln(nameMob,'Одержал победу');
+             end;
+end;
 
 // процедура боя между игроком и мобом
 procedure Fight(numberMob:integer);
 begin
-var damageMob,healMob:integer;
-var fightComand, nameMob:string;
+var fightComand:string;
  TextColor(TextCL[7,1]);
+ TextColor(yellow);
  case numberMob of 
       1:begin 
           Writeln('Вы встретили Здорового волка');
           nameMob:= 'Здоровый волк';
-          damageMob:= 10;
-          healMob:= 100;
           Writeln('Ваши действия:');
           Writeln('    Атаковать');
           Writeln('    Лечиться');
@@ -39,30 +66,11 @@ var fightComand, nameMob:string;
           case fightComand of 
             'Атаковать':
               begin
-                repeat
-                  healMob:= healMob - WeaponDamage ;
-                  Writeln('Вы атакуете,');
-                  Writeln('У противника осталось ', healMob);
-                    if (healMob = 0) or (healMob < 0) then
-                      begin
-                        break;
-                      end;
-                  Writeln('Противник атакает в ответ ');
-                  PlayerHeal:= PlayerHeal - damageMob;
-                  Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
-                until (PlayerHeal = 0) or (healMob = 0);
-                if PlayerHeal > healMob then
-                  begin
-                    Writeln('Игрок одержал победу');
-                  end
-                else
-                  begin
-                    Writeln(nameMob,'Одержал победу');
-                  end;
-              end;
+                FightWolf();        
            end;
          end;
  end;
+end;
 end;
 
 //процедура для смены цвета
@@ -388,6 +396,7 @@ begin
      'Конец':conez();
      'Очистить':cleanerText();
      'Сменить_цвет':SelectColor();
+     'Бой':Fight(1);
     else Writeln('Ошибка');
   end;
 end;

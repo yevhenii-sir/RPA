@@ -3,6 +3,7 @@ Uses Crt;
 // Переменные
 Var PlayerHeal,PlayerDamage, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
 PlayerComand:string;
+number: integer;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
 // процедуры
@@ -18,6 +19,7 @@ begin
  Writeln('Лечиться - Востановления здоровья игрока, в зависимости от баночки');
  Writeln('Бой - начатия боя з мобами ');
  Writeln('Не стоить запоминать все команды, если что-то забудешь напиши help в консоль');
+ Writeln('Очистить - очищает екран, от всех событий(текста)');
 end;
 
 //пороцедура для вывода содержимого инвентаря
@@ -126,26 +128,26 @@ end;
 procedure UpHeal();
 begin
   Writeln('Выберете баночку: ');
-  Writeln('   Один - Маленькая +10');
-  Writeln('   Два - Средняя   +30');
-  Writeln('   Три - Большая   +75');
-  Readln(PlayerComand);
-  Case PlayerComand of
-  'Один': If BotleHeal[1] > 0 then 
+  Writeln('   1 - Маленькая +10');
+  Writeln('   2 - Средняя   +30');
+  Writeln('   3 - Большая   +75');
+  Readln(number);
+  Case number of
+  1: If BotleHeal[1] > 0 then 
         begin
         PlayerHeal:= PlayerHeal + 10;
         BotleHeal[1]:= BotleHeal[1] - 1;
         Writeln('У вас осталося ',BotleHeal[1]);
         Writeln('У  ваш характеристика ',PlayerHeal);
         end;
-  'Два': If BotleHeal[2] > 0 then 
+  2: If BotleHeal[2] > 0 then 
         begin
         PlayerHeal:= PlayerHeal + 30;
         BotleHeal[2]:= BotleHeal[2] - 1;
         Writeln('У вас осталося ',BotleHeal[2]);
         Writeln('У  ваш характеристика ',PlayerHeal);
         end;
-  'Три': If BotleHeal[3] > 0 then 
+  3: If BotleHeal[3] > 0 then 
         begin
         PlayerHeal:= PlayerHeal + 75;
         BotleHeal[3]:= BotleHeal[3] - 1;
@@ -169,6 +171,8 @@ begin
         BotleHeal[1]:= 3;
         BotleHeal[2]:= 2;
         BotleHeal[3]:= 2;
+        ClrScr();
+        Writeln('Вы выбрали легкий уровень сложности');
        end;
     2: begin
         PlayerHeal:= 90;
@@ -179,6 +183,8 @@ begin
         BotleHeal[1]:= 2;
         BotleHeal[2]:= 1;
         BotleHeal[3]:=1;
+        ClrScr();
+        Writeln('Вы выбрали средний уровень сложности');
        end;
     3: begin
         PlayerHeal:=70;
@@ -189,6 +195,8 @@ begin
         BotleHeal[1]:= 2;
         BotleHeal[2]:= 1;
         BotleHeal[3]:= 0;
+        ClrScr();
+        Writeln('Вы выбрали тяжолый уровень сложности');
         end;
     else
       begin
@@ -210,6 +218,11 @@ procedure conez();
 begin
   exit;
 end;
+// процедура для очистки екрана
+Procedure cleanerText();
+begin
+  ClrScr();
+end;
 // процедура выбора команды, главная процедура.
 procedure Comand(ComandAnswer:string);
 begin
@@ -230,6 +243,7 @@ begin
      'Оружие': weapon();
      'Лечиться': UpHeal();
      'Конец':conez();
+     'Очистить':cleanerText();
     else Writeln('Ошибка');
   end;
 end;
@@ -258,5 +272,4 @@ begin
   Comand(PlayerComand);
  until PlayerHeal < 0;
  
-
 end.

@@ -184,9 +184,108 @@ end;
 procedure Cheat();
 //процедура для тестировки игры
 begin
-  Writeln('Вы активировали чит-мод, теперь у вас 9999 очков здоровья');
+  Writeln('Вы активировали чит-мод, теперь у вас 9999 очков здоровья и 9999 опыта');
   playerHeal:=9999;
+  PlayerExp:= 9999;
 end;
+
+//процедура для таверны
+procedure tavern();
+  begin
+    Writeln('У вас: ', PlayerExp, ' опыта');
+    Writeln('Товары: ');
+    Writeln('1 - Баночка улутшения для оружия стоит 20 опыта');
+    Writeln('2 - Баночка улутшения для силы стоит 5 опыта');
+    Writeln('3 - Баночки увеличения жизни');
+    Readln(number);
+    Case number of
+      1: begin
+          if PlayerExp >= 20 then
+            begin
+              TextColor(green);
+              BotleWeapon += 1;
+              PlayerExp -= 20;
+              Writeln('Вы купили одну баночку улутшения для оружия');
+              Writeln('У вас: ', PlayerExp, ' опыта');
+            end
+            else
+            begin
+              TextColor(red);
+              Writeln('У вас не хватает средств !!!');
+            end;
+          end;
+      2: begin
+          if PlayerExp >= 5 then
+            begin
+              TextColor(green);
+              BotleDamage += 1;
+              PlayerExp -= 5;
+              Writeln('Вы купили одну баночку для улутшения силы');
+              Writeln('У вас: ', PlayerExp, ' опыта');
+            end
+            else 
+            begin 
+              TextColor(red);
+              Writeln('У вас не хватает средств !!!');
+            end;
+          end;
+      3: begin
+            Writeln('Выбирите: ');
+            Writeln('1 - Маленькая баночка: стоимость 10');
+            Writeln('2 - Средняя баночка: стоимость 20');
+            Writeln('3 - Большая баночка: стоимость 30');
+            Readln(number);
+            Case number of
+            1: begin
+                if PlayerExp >= 10 then
+                  begin
+                    TextColor(green);
+                    BotleHeal[1] += 1;
+                    PlayerExp -= 10;
+                    Writeln('Вы купили одну маленькую баночку для увеличения здоровья');
+                    Writeln('У вас: ', PlayerExp, ' опыта');
+                  end
+                  else 
+                  begin
+                    TextColor(red);
+                    Writeln('У вас не хватает средств !!!');
+                  end;
+               end;
+            2: begin
+                if PlayerExp >= 20 then
+                  begin
+                    TextColor(green);
+                    BotleHeal[2] += 1;
+                    PlayerExp -= 20;
+                    Writeln('Вы купили одну среднюю баночку для увеличения здоровья');
+                    Writeln('У вас: ', PlayerExp, ' опыта');
+                  end
+                  else 
+                  begin
+                    TextColor(red);
+                    Writeln('У вас не хватает средств !!!');
+                  end;
+               end;
+             3: begin
+                if PlayerExp >= 30 then
+                  begin
+                    TextColor(green);
+                    BotleHeal[3] += 1;
+                    PlayerExp -= 30;
+                    Writeln('Вы купили одну большую баночку для увеличения здоровья');
+                    Writeln('У вас: ', PlayerExp, ' опыта');
+                  end
+                  else 
+                  begin
+                    TextColor(red);
+                    Writeln('У вас не хватает средств !!!');
+                  end;
+               end;
+             end; 
+         end;
+      end;
+  end;
+
 //процедура для смены цвета
 procedure chooseColor(var x, y:integer);
   var i: integer;
@@ -267,6 +366,7 @@ begin
  Writeln('Характеристики_игрока - показывает характеристику игрока ');
  Writeln('Инвентарь - показывает оружие и батончики которые есть в наличии');
  Writeln('Оружие - выбор оружия');
+ Writeln('Таверна - вы здесь можете купить баночек за опыт');
  Writeln('Качаться - увелечения урона для любого з оружий, но если есть баночек силы ');
  Writeln('Лечиться - Востановления здоровья игрока, в зависимости от баночки');
  Writeln('Бой - начатия боя з мобами ');
@@ -510,6 +610,7 @@ begin
     end;
      'Качаться','качаться','Rfxfnmcz','rfxfnmcz': UpDamageWeap();
      'Инвентарь','инвентарь','Bydtynfhm','bydtynfhm': Invent();
+     'Таверна', 'таверна', 'Nfdthyf', 'nfdthyf': tavern();
      'Оружие', 'оружие', 'Jhe;bt', 'jhe;bt': weapon();
      'Опыт','опыт': Writeln('У вас ',PlayerExp, ' Опыта');
      'Лечиться', 'лечиться', 'Ktxbnmcz', 'ktxbnmcz': UpHeal();

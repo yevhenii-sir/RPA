@@ -3,7 +3,7 @@ Uses Crt;
 // Переменные
 Var PlayerHeal,PlayerDamage, PlayerExp, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
 PlayerComand, Names, ng:string;
-number, num, a: integer;
+number, num: integer;
 var endProgram:boolean;
 t:text;
 Weapons: array[1..2] of integer;
@@ -34,19 +34,24 @@ procedure outSave();
 //процедура загрузки
 procedure inSave();
   begin
-  Write('Введите имя загрузки: ');
-  Readln(ng);
-  ng += '.txt';
-  Assign(t, ng);
-  Reset(t);
-  Readln(t, PlayerHeal, PlayerDamage,PlayerExp, BotleDamage, BotleHeal[1], BotleHeal[2], BotleHeal[3], BotleWeapon);
-  Readln(t, Weapons[1], Weapons[2], WeaponUp, Names);
-  Readln(t, TextCL[2,1], TextCL[3,1],  TextCL[4,1],  TextCL[5,1], TextCL[6,1], TextCL[7,1], TextCL[8,1]);
-  Readln(t, TextCL[1,1], TextCL[1,2], TextCL[1,3], TextCL[2,14], TextCL[1,5], TextCL[1,6], TextCL[1,7]);
-  Readln(t, TextCL[1,8], TextCL[1,9], TextCL[1,10], TextCL[1,11], TextCL[1,12], TextCL[1,13], TextCL[1,14]);
-  Readln(t, TextCL[1,15], TextCL[1,16]);
-  Close(t);
-  end;
+    Write('Введите имя загрузки: ');
+    Readln(ng);
+    ng += '.txt';
+    if not fileexists(ng) then begin
+      Writeln('Файл не найден');
+    end
+    else begin
+      Assign(t, ng);
+      Reset(t);
+      Readln(t, PlayerHeal, PlayerDamage,PlayerExp, BotleDamage, BotleHeal[1], BotleHeal[2], BotleHeal[3], BotleWeapon);
+      Readln(t, Weapons[1], Weapons[2], WeaponUp, Names);
+      Readln(t, TextCL[2,1], TextCL[3,1],  TextCL[4,1],  TextCL[5,1], TextCL[6,1], TextCL[7,1], TextCL[8,1]);
+      Readln(t, TextCL[1,1], TextCL[1,2], TextCL[1,3], TextCL[2,14], TextCL[1,5], TextCL[1,6], TextCL[1,7]);
+      Readln(t, TextCL[1,8], TextCL[1,9], TextCL[1,10], TextCL[1,11], TextCL[1,12], TextCL[1,13], TextCL[1,14]);
+      Readln(t, TextCL[1,15], TextCL[1,16]);
+      Close(t);
+    end;
+ end;
 
   procedure conezAndSave();
   begin
@@ -94,21 +99,21 @@ begin
   Case number of
   1: If BotleHeal[1] > 0 then 
         begin
-        PlayerHeal:= PlayerHeal + 10;
+        PlayerHeal += 10;
         BotleHeal[1]:= BotleHeal[1] - 1;
         Writeln('У вас осталося ',BotleHeal[1]);
         Writeln('У  ваш характеристика ',PlayerHeal);
         end;
   2: If BotleHeal[2] > 0 then 
         begin
-        PlayerHeal:= PlayerHeal + 30;
+        PlayerHeal += 30;
         BotleHeal[2]:= BotleHeal[2] - 1;
         Writeln('У вас осталося ',BotleHeal[2]);
         Writeln('У  ваш характеристика ',PlayerHeal);
         end;
   3: If BotleHeal[3] > 0 then 
         begin
-        PlayerHeal:= PlayerHeal + 75;
+        PlayerHeal += 75;
         BotleHeal[3]:= BotleHeal[3] - 1;
         Writeln('У вас осталося ',BotleHeal[3]);
         Writeln('У  ваш характеристика ',PlayerHeal);
@@ -367,17 +372,17 @@ numberMob:= Random(5)+ 1;
           Readln(fightComand);
           
           case fightComand of 
-            'Атаковать','атаковать','атковать':
+            'Атаковать','атаковать','атковать', 'fnfrjdfnm', 'Fnfrjdfnm':
               begin
                 FightWolf();        
               end;
-             'Лечиться', 'лечиться':
+             'Лечиться', 'лечиться', 'ktxbnmcz', 'Ktxbnmcz', 'Лечится', 'лечится':
               begin
                 UpHeal();
                 Writeln('Бой продолжаеться');
                 GOTO wolf;
               end;
-             'Убежать','убежать':
+             'Убежать','убежать', 'e,t;fnm', 'E,t;fnm':
               begin
                  escape();
               end;
@@ -397,17 +402,17 @@ numberMob:= Random(5)+ 1;
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать','атаковать','атковать':
+            'Атаковать','атаковать','атковать', 'fnfrjdfnm', 'Fnfrjdfnm':
               begin
                 FightRabbit();
               end;
-              'Лечиться', 'лечиться':
+              'Лечиться', 'лечиться', 'ktxbnmcz', 'Ktxbnmcz', 'Лечится', 'лечится':
               begin
                 UpHeal();
                 Writeln('Бой продолжаеться');
                 GOTO rabbit;
               end;
-              'Убежать','убежать':
+              'Убежать','убежать', 'e,t;fnm', 'E,t;fnm':
               begin
                  escape();
               end;
@@ -427,17 +432,17 @@ numberMob:= Random(5)+ 1;
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать','атаковать','атковать':
+            'Атаковать','атаковать','атковать', 'fnfrjdfnm', 'Fnfrjdfnm':
               begin
                 fightForestSpirit();
               end;
-              'Лечиться', 'лечиться':
+              'Лечиться', 'лечиться', 'ktxbnmcz', 'Ktxbnmcz', 'Лечится', 'лечится':
               begin
                 UpHeal();
                 Writeln('Бой продолжаеться');
                 GOTO spirit;
               end;
-              'Убежать','убежать':
+              'Убежать','убежать', 'e,t;fnm', 'E,t;fnm':
               begin
                  escape();
               end;
@@ -459,17 +464,17 @@ numberMob:= Random(5)+ 1;
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать','атаковать','атковать':
+            'Атаковать','атаковать','атковать', 'fnfrjdfnm', 'Fnfrjdfnm':
               begin
                 woundedWolf();
               end;
-               'Лечиться', 'лечиться':
+               'Лечиться', 'лечиться', 'ktxbnmcz', 'Ktxbnmcz', 'Лечится', 'лечится':
               begin
                 UpHeal();
                 Writeln('Бой продолжаеться');
                 GOTO wounWolf;
               end;
-              'Убежать','убежать':
+             'Убежать','убежать', 'e,t;fnm', 'E,t;fnm':
               begin
                  escape();
               end;
@@ -490,17 +495,17 @@ numberMob:= Random(5)+ 1;
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать','атаковать','атковать':
+            'Атаковать','атаковать','атковать', 'fnfrjdfnm', 'Fnfrjdfnm':
               begin
                 woundedWolf();
               end;
-               'Лечиться', 'лечиться':
+               'Лечиться', 'лечиться', 'ktxbnmcz', 'Ktxbnmcz', 'Лечится', 'лечится':
               begin
                 UpHeal();
                 Writeln('Бой продолжаеться');
                 GOTO el;
               end;
-              'Убежать','убежать':
+              'Убежать','убежать', 'e,t;fnm', 'E,t;fnm':
               begin
                  escape();
               end;
@@ -649,57 +654,57 @@ procedure tavern();
 procedure chooseColor(var x, y:integer);
   var i: integer;
   begin
-  for i:= 1 to 16 do begin
-  TextCL[x,i]:= y;
+    for i:= 1 to 16 do begin
+    TextCL[x,i]:= y;
   end;
-  end;
-  
-  Procedure SelectColor();
-begin
-Writeln('Где вы хотите изменить цвет?'); 
-Writeln('1 - Главное меню');
-Writeln('2 - Характеристики');
-Writeln('3 - Инвентарь');
-Writeln('4 - Оружие');
-Writeln('5 - Качаться');
-Writeln('6 - Лечиться');
-Writeln('7 - Бой');
-Writeln('8 - Таверна');
-Readln(number);
-Writeln('Выбирите цвет: ');
-Writeln('1 - LightBlue');
-Writeln('2 - Red');
-Writeln('3 - Magenta');
-Writeln('4 - Yellow');
-Writeln('5 - LightGray');
-Readln(num);
-Case num of
-1: begin
-    num:= 9;
-    chooseColor(number,num);
-  end;
-2: begin
-    num:= 4;
-    chooseColor(number,num);
-    end;
-3: begin
-    num:= 5;
-    chooseColor(number,num);
-    end;
-4: begin
-    num:= 14;
-    chooseColor(number,num);
-    end;
-5: begin
-    num:= 7;
-    chooseColor(number,num);
-    end;
 end;
+  
+procedure SelectColor();
+  begin
+  Writeln('Где вы хотите изменить цвет?'); 
+  Writeln('1 - Главное меню');
+  Writeln('2 - Характеристики');
+  Writeln('3 - Инвентарь');
+  Writeln('4 - Оружие');
+  Writeln('5 - Качаться');
+  Writeln('6 - Лечиться');
+  Writeln('7 - Бой');
+  Writeln('8 - Таверна');
+  Readln(number);
+  Writeln('Выбирите цвет: ');
+  Writeln('1 - LightBlue');
+  Writeln('2 - Red');
+  Writeln('3 - Magenta');
+  Writeln('4 - Yellow');
+  Writeln('5 - LightGray');
+  Readln(num);
+  Case num of
+    1: begin
+      num:= 9;
+      chooseColor(number,num);
+    end;
+    2: begin
+      num:= 4;
+      chooseColor(number,num);
+    end;
+    3: begin
+      num:= 5;
+      chooseColor(number,num);
+    end;
+    4: begin
+      num:= 14;
+      chooseColor(number,num);
+    end;
+    5: begin
+      num:= 7;
+      chooseColor(number,num);
+    end;
+  end;
 end;
 
 // Theame
 procedure Theame();
-var i, n: integer;
+var i: integer;
 	begin
 		Writeln('Что вы хотите изменить: ');
 		Writeln('   1 - Тему');
@@ -797,7 +802,7 @@ end;
 
 //Начальный цвет
 procedure startCL();
-  var i, n: integer;
+  var i: integer;
   begin
     for i:= 1 to 16 do 
       begin
@@ -845,7 +850,7 @@ begin
   TextColor(TextCL[1,2]);
  Writeln('Характеристики_игрока - показывает характеристику игрока ');
   TextColor(TextCL[1,3]);
- Writeln('Инвентарь - показывает оружие и батончики которые есть в наличии');
+ Writeln('Инвентарь - показывает оружие и баночки которые есть в наличии');
   TextColor(TextCL[1,4]);
  Writeln('Оружие - выбор оружия');
   TextColor(TextCL[1,5]);
@@ -881,7 +886,7 @@ begin
   Writeln('Оружие: ');
   Writeln('    Меч');
   Writeln('    Кинжал');
-  Writeln('Батончики: ');
+  Writeln('Баночки: ');
   Writeln('    Количество баночек силы: ', BotleDamage);
   Writeln('    Кол-во баночек здоровья: '); 
   Writeln('           Маленькая -', BotleHeal[1]);
@@ -906,10 +911,10 @@ procedure UpDamageWeap();
     Writeln('Выбирите оружие которое вам нужно улутшить: ');
     Writeln('   Меч - ', Weapons[1], ' урона        +',WeaponUp);
     Writeln('   Кинжал - ', Weapons[2], ' урона     +',WeaponUp);
-    Writeln('   Кулаки - ', PlayerDamage, ' урона   +1');
+    Writeln('   Кулаки - ', PlayerDamage, ' урона     +1');
     Readln(PlayerComand);
     Case PlayerComand of
-      'Меч': Begin 
+      'Меч', 'меч', 'vtx', 'Vtx': Begin 
         If BotleWeapon > 0 then
           begin
           Weapons[1] := Weapons[1] + WeaponUp;
@@ -923,7 +928,7 @@ procedure UpDamageWeap();
           Writeln('У вас нет нужного снаряжения');
           end;
       end;
-   'Кинжал': Begin 
+   'Кинжал', 'кинжал', 'rby;fk', 'Rby;fk': Begin 
         If BotleWeapon > 0 then
           begin
           Weapons[2] := Weapons[2] + WeaponUp;
@@ -937,7 +942,7 @@ procedure UpDamageWeap();
           Writeln('У вас нет нужного снаряжения');
           end;
       end;
-   'Кулаки': Begin
+   'Кулаки', 'кулаки', 'rekfrb', 'Rekfrb': Begin
         If BotleDamage > 0 then
           begin
           PlayerDamage:=PlayerDamage  + 1;
@@ -960,16 +965,16 @@ procedure weapon();
 begin
   TextColor(TextCL[4,1]);
   Writeln('Выбирите оружие: ');
-  Writeln('   Меч - ', Weapons[1], 'урона');
+  Writeln('   Меч - ', Weapons[1], ' урона');
   Writeln('   Кинжал - ', Weapons[2], ' урона');
 //PlayerDamage это урон от кулаков
   Writeln('   Кулаки - ', PlayerDamage, ' урона');
   Write('Введите названия оружия: ');
   Readln(PlayerComand);
   Case PlayerComand of
-    'Меч': WeaponDamage:= Weapons[1];
-    'Кинжал': WeaponDamage:= Weapons[2];
-    'Кулаки': WeaponDamage:= PlayerDamage;
+    'Меч', 'меч', 'vtx', 'Vtx': WeaponDamage:= Weapons[1];
+    'Кинжал', 'кинжал', 'rby;fk', 'Rby;fk': WeaponDamage:= Weapons[2];
+    'Кулаки', 'кулаки', 'rekfrb', 'Rekfrb': WeaponDamage:= PlayerDamage;
   else Begin 
     Writeln('Вы выбрали неправильно! Автоматически установлен Меч');
     WeaponDamage:= Weapons[1];
@@ -1096,7 +1101,7 @@ end;
 procedure Comand(ComandAnswer:string);
 begin
   Case ComandAnswer of 
-    'help', 'Помощь', 'помощь', 'Help': ConsoleHelp();
+    'help', 'Помощь', 'помощь', 'Help', 'Меню', 'меню': ConsoleHelp();
     'Характеристики_игрока', 'характеристики_игрока','{fhfrnthbcnbrb_buhjrf','[fhfrnthbcnbrb_buhjrf':
     begin
     TextColor(TextCL[2,1]);
@@ -1122,7 +1127,8 @@ begin
      'О_программе','о_программе','J_ghjuhfvvt','j_ghjuhfvvt': about();
      'Чит':Cheat();
      'Прощай','прощай','ghjofq','Ghjofq':conezAndSave();
-    else Writeln('Ошибка');
+    else TextColor(red);
+         Writeln('Ошибка');
   end;
 end;
 

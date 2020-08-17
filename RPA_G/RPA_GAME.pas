@@ -6,7 +6,7 @@ PlayerComand:string;
 number, num: integer;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
-TextCL: array[1..6, 1..10] of integer;
+TextCL: array[1..7, 1..2] of integer;
 // процедуры
 // процедура для вызова надписей команд 
 // обучения 
@@ -24,6 +24,7 @@ procedure Fight(numberMob:integer);
 begin
 var damageMob,healMob:integer;
 var fightComand, nameMob:string;
+ TextColor(TextCL[7,1]);
  case numberMob of 
       1:begin 
           Writeln('Вы встретили Здорового волка');
@@ -63,33 +64,27 @@ var fightComand, nameMob:string;
          end;
  end;
 end;
-// процедура смены цвета консоли 
-Procedure chooseColor();
-begin
-//доработать функцию смены цввета
- Writeln('Смена цвета'); 
-end;
 
 //процедура для смены цвета
 procedure chooseColor(var x, y:integer);
-  var i, N: integer;
+  var i: integer;
   begin
-  for i:= 1 to N do begin
+  for i:= 1 to 2 do begin
   TextCL[x,i]:= y;
   end;
   end;
 
-// процедура для выбора места
+// процедура для выбора места приминеня цвета
 Procedure SelectColor();
 begin
-//доработать функцию смены цввета
 Writeln('Где вы хотите изменить цвет?'); 
-Writeln('1 - glavnoy menu');
-Writeln('2 - haracteristyky');
-Writeln('3 - invent');
-Writeln('4 - oruzie');
-Writeln('5 - kachat');
-Writeln('6 - lechisa');
+Writeln('1 - Главное меню');
+Writeln('2 - Характеристики');
+Writeln('3 - Инвентарь');
+Writeln('4 - Оружие');
+Writeln('5 - Качаться');
+Writeln('6 - Лечиться');
+Writeln('7 - Бой');
 Readln(number);
 Writeln('Выбирите цвет: ');
 Writeln('1 - LightBlue');
@@ -124,9 +119,15 @@ end;
 
 //процедура старту игры
 procedure starting();
+var i, n: integer;
 begin
-  //Главнвя переменая для урона теперь WeaponDamage
-  TextColor(LightBlue);
+  for i:= 1 to 6 do 
+      begin
+        for n:=1 to 2 do begin
+        TextCL[i,n] := White; //изначальный цвет текста
+        end;
+      end;
+  TextColor(White);
   PlayerDamage:= 5;
   Writeln('------------------');
   Writeln('НАЧАЛО');
@@ -141,24 +142,15 @@ procedure ConsoleHelp();
 begin
  TextColor(TextCL[1,1]);
  Writeln('Вся игра состоит из команд до главнои консоли');
- TextColor(TextCL[1,2]);
  Writeln('Характеристики_игрока - показывает характеристику игрока ');
- TextColor(TextCL[1,3]);
  Writeln('Инвентарь - показывает оружие и батончики которые есть в наличии');
- TextColor(TextCL[1,4]);
  Writeln('Оружие - выбор оружия');
- TextColor(TextCL[1,5]);
  Writeln('Качаться - увелечения урона для любого з оружий, но если есть баночек силы ');
- TextColor(TextCL[1,6]);
  Writeln('Лечиться - Востановления здоровья игрока, в зависимости от баночки');
- TextColor(TextCL[1,7]);
  Writeln('Бой - начатия боя з мобами ');
- TextColor(TextCL[1,8]);
  Writeln('Не стоить запоминать все команды, если что-то забудешь напиши help в консоль');
- TextColor(TextCL[1,9]);
  Writeln('Очистить - очищает екран, от всех событий(текста)');
  Writeln('Сменить_цвет - позволяет выбрать цвет текста');
- TextColor(TextCL[1,10]);
 end;
 
 //пороцедура для вывода содержимого инвентаря
@@ -245,7 +237,7 @@ procedure UpDamageWeap();
 //процедура для выбора оружия
 procedure weapon();
 begin
-  TextColor(Magenta);
+  TextColor(TextCL[4,1]);
   Writeln('Выбирите оружие: ');
   Writeln('   Меч - ', Weapons[1], 'урона');
   Writeln('   Кинжал - ', Weapons[2], ' урона');
@@ -273,6 +265,7 @@ end;
 // процедура для личения
 procedure UpHeal();
 begin
+  TextColor(TextCL[6,1]);
   Writeln('Выберете баночку: ');
   Writeln('   1 - Маленькая +10');
   Writeln('   2 - Средняя   +30');
@@ -309,6 +302,7 @@ Procedure differ(x:integer);
 begin
   case x of 
     1: begin
+    TextColor(Red);
         PlayerHeal:=100;
         PlayerDamage:=30;
         Weapons[1]:= 50;
@@ -321,6 +315,7 @@ begin
         Writeln('Вы выбрали легкий уровень сложности');
        end;
     2: begin
+    TextColor(Red);
         PlayerHeal:= 90;
         PlayerDamage:=20;
         Weapons[1]:= 45;
@@ -333,6 +328,7 @@ begin
         Writeln('Вы выбрали средний уровень сложности');
        end;
     3: begin
+    TextColor(Red);
         PlayerHeal:=70;
         PlayerDamage:=10;
         Weapons[1]:= 40;
@@ -346,6 +342,7 @@ begin
         end;
     else
       begin
+      TextColor(Red);
         Writeln('Не правильно указано, был выбран 1 ваиант');
         PlayerHeal:=100;
         PlayerDamage:=30;
@@ -376,6 +373,7 @@ begin
     'help': ConsoleHelp();
     'Характеристики_игрока':
     begin
+    TextColor(TextCL[2,1]);
       Writeln('Здоровье игрока - ', PlayerHeal);
       if WeaponDamage = 0 then
         begin

@@ -9,16 +9,96 @@ BotleHeal: array[1..3] of integer;
 TextCL: array[1..7, 1..2] of integer;
 //глобальные перемены для моба(улучшения системы боя)
  var damageMob,healMob:integer;
- nameMob:string;
+ var nameMob:string;
+ var decisionEscape:integer;
+ 
+ //процедура бега
+ procedure escape();
+ var ranDamage:integer; // случайный урон по игроку в попытке убежать
+ begin
+ Randomize;
+  Writeln('Вы рeшили убежать');
+  decisionEscape:=Random(2);
+  if nameMob = 'Обычный заец' then
+    begin
+      Writeln('Бежать от насколько слабого существа, та вы трус');
+      Writeln('Вас убил бог смелости');
+      PlayerHeal:=0;
+    end;
+  if decisionEscape = 1 then
+    begin
+      Writeln('Вы успешно убежали');
+    end
+  else
+   begin
+      Writeln('Вам не удалося убежать');
+      Writeln('Вы теряете случайное количество здоровья, но остаётесь живы и смогли убежать');
+      ranDamage:=Random(80)+10;
+      PlayerHeal:=PlayerHeal - ranDamage;
+      Writeln('У вас остальсь ', PlayerHeal, ' здоровья');
+   end;
+ end;
+
+ // процедура для личения
+procedure UpHeal();
+begin
+  TextColor(TextCL[6,1]);
+  Writeln('Выберете баночку: ');
+  Writeln('   1 - Маленькая +10');
+  Writeln('   2 - Средняя   +30');
+  Writeln('   3 - Большая   +75');
+  Readln(number);
+  Case number of
+  1: If BotleHeal[1] > 0 then 
+        begin
+        PlayerHeal:= PlayerHeal + 10;
+        BotleHeal[1]:= BotleHeal[1] - 1;
+        Writeln('У вас осталося ',BotleHeal[1]);
+        Writeln('У  ваш характеристика ',PlayerHeal);
+        end;
+  2: If BotleHeal[2] > 0 then 
+        begin
+        PlayerHeal:= PlayerHeal + 30;
+        BotleHeal[2]:= BotleHeal[2] - 1;
+        Writeln('У вас осталося ',BotleHeal[2]);
+        Writeln('У  ваш характеристика ',PlayerHeal);
+        end;
+  3: If BotleHeal[3] > 0 then 
+        begin
+        PlayerHeal:= PlayerHeal + 75;
+        BotleHeal[3]:= BotleHeal[3] - 1;
+        Writeln('У вас осталося ',BotleHeal[3]);
+        Writeln('У  ваш характеристика ',PlayerHeal);
+        end;
+  else Writeln('Ошибка');
+  end;
+end;
 // процедуры
 // процедура для вызова надписей команд 
 // обучения 
 //Все мобы
 procedure FightC();
 // этот код не трогать главная часть системы боя
+// улучшения системы боя, добавлен случайны урон по противнику 
+var trueDamage:integer;
+label z;
   begin
+Randomize;
+z:
+ if WeaponDamage = 30 then
+    begin
+      trueDamage:=Random(30)+5;
+    end
+ else if WeaponDamage = 35 then 
+    begin
+      trueDamage:=Random(30)+10;
+    end
+  else
+    begin
+      trueDamage:=Random(35)+30;
+    end;
     repeat
-         healMob:= healMob - WeaponDamage ;
+         healMob:= healMob - trueDamage ;
          Writeln('Вы атакуете,');
          if (healMob = 0) or (healMob < 0) then
            begin
@@ -32,6 +112,7 @@ procedure FightC();
           Writeln(nameMob,' атакует в ответ ');
           PlayerHeal:= PlayerHeal - damageMob;
           Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
+          GOTO z;
     until (PlayerHeal = 0) or (healMob = 0);
           if PlayerHeal > healMob then
              begin
@@ -107,6 +188,7 @@ end;
 
 // процедура боя между игроком и мобом
 procedure Fight();
+LABEL wolf,rabbit,spirit,wounWolf;
 begin
 var fightComand:string;
 var numberMob:integer;
@@ -121,43 +203,79 @@ numberMob:= Random(3)+ 1;
       1:begin 
           Writeln('Вы встретили Здорового волка');
           nameMob:= 'Здоровый волк';
+          wolf:
           Writeln('Ваши действия:');
           Writeln('    Атаковать');
- //         Writeln('    Лечиться');
+          Writeln('    Лечиться');
+          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
           Readln(fightComand);
           
           case fightComand of 
-            'Атаковать':
+            'Атаковать','атаковать','атковать':
               begin
                 FightWolf();        
+              end;
+             'Лечиться', 'лечиться':
+              begin
+                UpHeal();
+                Writeln('Бой продолжаеться');
+                GOTO wolf;
+              end;
+             'Убежать','убежать':
+              begin
+                 escape();
               end;
          end;
         end;
       3:begin
           Writeln('Вы встретили Обычного зайца');
           Writeln('Ваши действия:');
+          rabbit:
           Writeln('    Атаковать');
- //         Writeln('    Лечиться');
+          Writeln('    Лечиться');
+          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать':
+            'Атаковать','атаковать','атковать':
               begin
                 FightRabbit();
+              end;
+              'Лечиться', 'лечиться':
+              begin
+                UpHeal();
+                Writeln('Бой продолжаеться');
+                GOTO rabbit;
+              end;
+              'Убежать','убежать':
+              begin
+                 escape();
               end;
           end;
        end;
       2:begin
           Writeln('Вы встретили Лесного духа');
           Writeln('Ваши действия:');
+          spirit:
           Writeln('    Атаковать');
- //         Writeln('    Лечиться');
+          Writeln('    Лечиться');
+          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать':
+            'Атаковать','атаковать','атковать':
               begin
                 fightForestSpirit();
+              end;
+              'Лечиться', 'лечиться':
+              begin
+                UpHeal();
+                Writeln('Бой продолжаеться');
+                GOTO spirit;
+              end;
+              'Убежать','убежать':
+              begin
+                 escape();
               end;
               
       
@@ -166,14 +284,26 @@ numberMob:= Random(3)+ 1;
       4:begin
            Writeln('Вы встретили Раненого волк');
           Writeln('Ваши действия:');
+          wounWolf:
           Writeln('    Атаковать');
- //         Writeln('    Лечиться');
+          Writeln('    Лечиться');
+          Writeln('    Убежать (возможность убежать 50%), если не получиться будет урон случайный урон по игроку');
           Readln(fightComand);
           
           case fightComand of
-            'Атаковать':
+            'Атаковать','атаковать','атковать':
               begin
                 woundedWolf();
+              end;
+               'Лечиться', 'лечиться':
+              begin
+                UpHeal();
+                Writeln('Бой продолжаеться');
+                GOTO wounWolf;
+              end;
+              'Убежать','убежать':
+              begin
+                 escape();
               end;
       
           end;
@@ -478,6 +608,8 @@ begin
     end;
   end;
   Writeln('Теперь ваш урон составляєт: ', WeaponDamage);
+  Writeln('Урон при бое с противником не всегда равен точному.');
+  Writeln('Может быть большим или меньшим в пределе разумного');
 end; 
 
 procedure Inp();
@@ -485,40 +617,6 @@ begin
   Writeln('Введите команду');
 end;
 
-// процедура для личения
-procedure UpHeal();
-begin
-  TextColor(TextCL[6,1]);
-  Writeln('Выберете баночку: ');
-  Writeln('   1 - Маленькая +10');
-  Writeln('   2 - Средняя   +30');
-  Writeln('   3 - Большая   +75');
-  Readln(number);
-  Case number of
-  1: If BotleHeal[1] > 0 then 
-        begin
-        PlayerHeal:= PlayerHeal + 10;
-        BotleHeal[1]:= BotleHeal[1] - 1;
-        Writeln('У вас осталося ',BotleHeal[1]);
-        Writeln('У  ваш характеристика ',PlayerHeal);
-        end;
-  2: If BotleHeal[2] > 0 then 
-        begin
-        PlayerHeal:= PlayerHeal + 30;
-        BotleHeal[2]:= BotleHeal[2] - 1;
-        Writeln('У вас осталося ',BotleHeal[2]);
-        Writeln('У  ваш характеристика ',PlayerHeal);
-        end;
-  3: If BotleHeal[3] > 0 then 
-        begin
-        PlayerHeal:= PlayerHeal + 75;
-        BotleHeal[3]:= BotleHeal[3] - 1;
-        Writeln('У вас осталося ',BotleHeal[3]);
-        Writeln('У  ваш характеристика ',PlayerHeal);
-        end;
-  else Writeln('Ошибка');
-  end;
-end;
 
 // процедура выбора уровни сложности 
 Procedure differ(x:integer);

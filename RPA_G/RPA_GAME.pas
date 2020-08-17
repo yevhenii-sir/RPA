@@ -2,7 +2,7 @@
 Uses Crt;
 // Переменные
 Var PlayerHeal,PlayerDamage, PlayerExp, WeaponDamage, WeaponUp, diferent, BotleDamage, BotleWeapon:integer;
-PlayerComand:string;
+PlayerComand, Names:string;
 number, num: integer;
 Weapons: array[1..2] of integer;
 BotleHeal: array[1..3] of integer;
@@ -327,6 +327,7 @@ procedure tavern();
     Writeln('1 - Баночка улутшения для оружия стоит 20 опыта');
     Writeln('2 - Баночка улутшения для силы стоит 5 опыта');
     Writeln('3 - Баночки увеличения жизни');
+    Writeln('4 - Розслабляющий напиток стоит 15 опыта');
     Readln(number);
     Case number of
       1: begin
@@ -413,6 +414,21 @@ procedure tavern();
                end;
              end; 
          end;
+      4: begin
+          if PlayerExp >= 15 then
+            begin
+              TextColor(green);
+              BotleWeapon += 1;
+              PlayerExp -= 15;
+              Writeln('Вы просто потратили опыт))');
+              Writeln('У вас: ', PlayerExp, ' опыта');
+            end
+            else
+            begin
+              TextColor(red);
+              Writeln('У вас не хватает средств !!!');
+            end;
+          end;
       end;
   end;
 
@@ -614,7 +630,7 @@ end;
 
 procedure Inp();
 begin
-  Writeln('Введите команду');
+  Writeln('Введите команду, ',Names);
 end;
 
 
@@ -686,6 +702,14 @@ procedure conez();
 begin
   exit;
 end;
+
+procedure PlayerName();
+	begin
+	Write('Введите имя: ');
+	Readln(Names);
+	Writeln('Добро пожаловать в игру ', Names, ' !');
+	end;
+
 // процедура для очистки екрана
 Procedure cleanerText();
 begin
@@ -723,6 +747,7 @@ end;
 
 // Основная программа
 begin
+ PlayerName();
  starting();
  Readln(diferent);
  differ(diferent);

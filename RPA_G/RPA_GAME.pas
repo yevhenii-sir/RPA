@@ -33,7 +33,7 @@ TextCL: array[1..8, 1..14] of integer;
    begin
       Writeln('Вам не удалося убежать');
       Writeln('Вы теряете случайное количество здоровья, но остаётесь живы и смогли убежать');
-      ranDamage:=Random(80)+10;
+      ranDamage:=Random(60)+10;
       PlayerHeal:=PlayerHeal - ranDamage;
       Writeln('У вас остальсь ', PlayerHeal, ' здоровья');
    end;
@@ -73,10 +73,102 @@ begin
   else Writeln('Ошибка');
   end;
 end;
+
+Procedure KamolovFrass();
+  var frassNumber:integer;
+  begin
+    Randomize;
+    frassNumber:= Random(6);
+
+    case frassNumber of 
+          0:Writeln('С такими знаниями вы не сможете стать программистами');
+          1:Writeln('Настоящий программист должен понимать машинные коды');
+          2:Writeln('HTML - это самый простой язык');
+          3:Writeln('Не правильное выравнивания в ячейке таблицы');
+          4:Writeln('Вы должны учиться помимо коледжа');
+          5:Writeln('За это уже можно снять бал, если не исправиш');
+     end;
+  end;
 // процедуры
 // процедура для вызова надписей команд 
-// обучения 
+procedure FightBoss();
+var trueDamage:integer;
+label be;
+  begin
+Randomize;
+be:
+ if WeaponDamage = 30 then
+    begin
+      trueDamage:=Random(30)+5;
+    end
+ else if WeaponDamage = 35 then 
+    begin
+      trueDamage:=Random(30)+10;
+    end
+ else if WeaponDamage > 110 then
+    begin
+      trueDamage:=Random(101) + 70;
+    end
+  else
+    begin
+      trueDamage:=Random(35)+30;
+    end;
+    repeat
+         healMob:= healMob - trueDamage ;
+         Writeln('Вы атакуете,');
+         if (healMob = 0) or (healMob < 0) then
+           begin
+              healMob:= 0
+           end;
+         Writeln('У противника осталось ', healMob);
+         Writeln('Он говорит вам:');
+         KamolovFrass();
+         if (healMob = 0) or (healMob < 0) then
+           begin
+              break;
+           end;
+          Writeln(nameMob,' атакует в ответ ');
+          PlayerHeal:= PlayerHeal - damageMob;
+          Writeln('У вас осталося ',PlayerHeal, ' Здоровья');
+          GOTO be;
+    until (PlayerHeal = 0) or (healMob = 0);
+          if PlayerHeal > healMob then
+             begin
+               Writeln('Игрок одержал победу');
+               Writeln('У вас: ', PlayerExp, ' опыта');
+             end
+          else
+             begin
+               Writeln(nameMob,' Одержал победу');
+             end;
+  end;
 //Все мобы
+procedure Boss();
+begin
+  if PlayerExp >= 400 then 
+    begin
+    ClrScr();
+      Writeln('Вы встретили боса Адского Камолова');
+      Writeln('От него не убежать');
+      Writeln('Бог смелости награждает вас');
+      Writeln('Прибавка к здоровьи 200');
+      PlayerHeal:=PlayerHeal + 200;
+      Writeln('Также дарует свой меч');
+      Writeln('Прибавка к урону 120 ');
+      WeaponDamage:=WeaponDamage + 120;
+      Writeln('Вам прийдёться сражаться');
+      damageMob:=140;
+      healMob:=400;
+      nameMob:='Адский Камолов';
+      PlayerExp:= PlayerExp + 200;
+      FightBoss();
+    end
+  else
+    begin
+    
+    end;
+
+end;
 procedure FightC();
 // этот код не трогать главная часть системы боя
 // улучшения системы боя, добавлен случайны урон по противнику 
@@ -92,6 +184,10 @@ z:
  else if WeaponDamage = 35 then 
     begin
       trueDamage:=Random(30)+10;
+    end
+ else if WeaponDamage > 110 then
+    begin
+      trueDamage:=Random(101) + 70;
     end
   else
     begin
@@ -124,6 +220,20 @@ z:
                Writeln(nameMob,' Одержал победу');
              end;
   end;
+
+procedure fightElf();
+begin
+//Эльф
+//Уровень моба: средний уровень
+//Здоровье: 127
+//Урон: 46
+//Ключ моба = 5 (numberMob)
+  damageMob:=46;
+  healMob:=127;
+  nameMob:='Эльф';
+  PlayerExp:= PlayerExp + 30;
+  FightC();
+end;
 
 procedure woundedWolf();
   begin
@@ -188,14 +298,14 @@ end;
 
 // процедура боя между игроком и мобом
 procedure Fight();
-LABEL wolf,rabbit,spirit,wounWolf;
+LABEL wolf,rabbit,spirit,wounWolf,el;
 begin
 var fightComand:string;
 var numberMob:integer;
 //механизм случайного проттвника, отвечает за всё переменная numberMob;
 //начало механизму
 Randomize;
-numberMob:= Random(3)+ 1;
+numberMob:= Random(5)+ 1;
 //конец механизму
  TextColor(TextCL[7,1]);
  case numberMob of 
@@ -323,15 +433,51 @@ numberMob:= Random(3)+ 1;
       
           end;
         end;
+      5:begin
+          Writeln('Вы встретили Эльфа');
+          Writeln('Ваши действия:');
+          el:
+          TextColor(Green);
+          Writeln('    Атаковать');
+          TextColor(7);
+          Writeln('    Лечиться');
+          TextColor(12);
+          Writeln('    Убежать (возможность убежать 50%),при неудачи будет случайный урон по игроку');
+          TextColor(Yellow);
+          Readln(fightComand);
+          
+          case fightComand of
+            'Атаковать','атаковать','атковать':
+              begin
+                woundedWolf();
+              end;
+               'Лечиться', 'лечиться':
+              begin
+                UpHeal();
+                Writeln('Бой продолжаеться');
+                GOTO el;
+              end;
+              'Убежать','убежать':
+              begin
+                 escape();
+              end;
+      
+          end;
+        end;
 end;
 end;
 
 procedure Cheat();
 //процедура для тестировки игры
 begin
-  Writeln('Вы активировали чит-мод, теперь у вас 9999 очков здоровья и 9999 опыта');
-  playerHeal:=9999;
-  PlayerExp:= 9999;
+var a,b:integer;
+  Writeln('Вы активировали чит-мод');
+  Writeln('Введите сколько хотите здоровья');
+  Readln(a);
+  playerHeal:=a;
+  Writeln('Введите сколько хотите опыта');
+  Readln(b);
+  PlayerExp:=b;
 end;
 
 //процедура для таверны
@@ -839,6 +985,7 @@ begin
  Writeln('                                    Начало'); 
  TextColor(Red);
  repeat
+  Boss();
   Inp();
   Readln(PlayerComand);
   Comand(PlayerComand);

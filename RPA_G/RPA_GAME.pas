@@ -6,7 +6,9 @@ PlayerComand, Names, ng:string;
 number, num: integer;
 var endProgram:boolean;
 t:text;
-Weapons: array[1..2] of integer;
+Weapons: array[1..6] of integer;
+WeaponsIN: array[1..4] of integer;
+WeaponsTO: array[1..4] of integer;
 BotleHeal: array[1..3] of integer;
 TextCL: array[1..8, 1..16] of integer;
 //глобальные перемены для моба(улучшения системы боя)
@@ -27,6 +29,8 @@ procedure outSave();
   Writeln(t, TextCL[2,1], ' ', TextCL[3,1], ' ', TextCL[4,1], ' ', TextCL[5,1], ' ', TextCL[6,1], ' ', TextCL[7,1], ' ', TextCL[8,1]);
   Writeln(t, TextCL[1,1], ' ',TextCL[1,2], ' ',TextCL[1,3], ' ',TextCL[2,14], ' ',TextCL[1,5], ' ',TextCL[1,6], ' ',TextCL[1,7]);
   Writeln(t, TextCL[1,8], ' ',TextCL[1,9], ' ',TextCL[1,10], ' ',TextCL[1,11], ' ',TextCL[1,12], ' ',TextCL[1,13], ' ',TextCL[1,14]);
+  Writeln(t, WeaponsIN[1],' ', WeaponsIN[2],' ' ,WeaponsIN[3],' ', WeaponsIN[4],' ', WeaponsTo[1],' ', WeaponsTo[2],' ', WeaponsTo[3],' ', WeaponsTo[4]);
+  Writeln(t, Weapons[3], ' ', Weapons[4], ' ' , Weapons[5], ' ', Weapons[6]);
   Writeln(t, TextCL[1,15], ' ', TextCL[1,16]);
   close(t);
   end;
@@ -48,6 +52,8 @@ procedure inSave();
       Readln(t, TextCL[2,1], TextCL[3,1],  TextCL[4,1],  TextCL[5,1], TextCL[6,1], TextCL[7,1], TextCL[8,1]);
       Readln(t, TextCL[1,1], TextCL[1,2], TextCL[1,3], TextCL[2,14], TextCL[1,5], TextCL[1,6], TextCL[1,7]);
       Readln(t, TextCL[1,8], TextCL[1,9], TextCL[1,10], TextCL[1,11], TextCL[1,12], TextCL[1,13], TextCL[1,14]);
+      Readln(t, WeaponsIN[1], WeaponsIN[2], WeaponsIN[3], WeaponsIN[4], WeaponsTo[1], WeaponsTo[2], WeaponsTo[3], WeaponsTo[4]);
+      Readln(t, Weapons[3], Weapons[4], Weapons[5]);
       Readln(t, TextCL[1,15], TextCL[1,16]);
       Close(t);
     end;
@@ -59,7 +65,8 @@ procedure inSave();
     Writeln('Игра окончена!!!');
     endProgram:=true;
   end;
-
+  
+ 
  //процедура бега
  procedure escape();
  var ranDamage:integer; // случайный урон по игроку в попытке убежать
@@ -524,6 +531,9 @@ var a,b:integer;
   Readln(a);
   playerHeal:=a;
   Writeln('Введите сколько хотите опыта');
+  TextColor(LightGray);
+  Writeln('Вводить число только до 399');
+  TextColor(10);
   Readln(b);
   PlayerExp:=b;
 end;
@@ -538,6 +548,7 @@ procedure tavern();
     Writeln('      2 - Баночка улутшения для силы стоит 5 опыта');
     Writeln('      3 - Баночки увеличения жизни');
     Writeln('      4 - Розслабляющий напиток стоит 15 опыта');
+    writeln('      5 - Оружие');
     Readln(number);
     Case number of
       1: begin
@@ -643,6 +654,101 @@ procedure tavern();
               Writeln('У вас не хватает средств !!!');
             end;
           end;
+          5: begin
+         Writeln('Выберете что хотите купить:');
+         if WeaponsTO[1] > 0 then begin
+         TextColor(Red);
+         Writeln('  1 - Пушка:        урон ', Weapons[3], ', стоимость 65 опыта');
+         TextColor(7);
+         end
+         else begin
+           TextColor(7);
+           Writeln('  1 - Пушка:        урон ', Weapons[3], ', стоимость 65 опыта');
+         end;
+         
+         if WeaponsTO[2] > 0 then begin
+          TextColor(Red);
+          Writeln('  2 - Винтовка:     урон ', Weapons[4], ', стоимость 80 опыта');
+          TextColor(7);
+         end
+         else begin
+           TextColor(7);
+           Writeln('  2 - Винтовка:     урон ', Weapons[4], ', стоимость 80 опыта');
+         end;
+         if WeaponsTO[3] > 0 then begin
+           TextColor(Red);
+           Writeln('  3 - Катана:       урон ', Weapons[5], ', стоимость 50 опыта');
+           TextColor(7);
+         end
+         else begin
+           TextColor(7);
+           Writeln('  3 - Катана:       урон ', Weapons[5], ', стоимость 50 опыта');
+         end;
+         if WeaponsTO[4] > 0 then begin
+           TextColor(Red);
+           Writeln('  4 - Лазерный меч: урон ', Weapons[6], ', стоимость 90 опыта');
+           TextColor(7);
+         end
+         else begin
+           TextColor(7);
+           Writeln('  4 - Лазерный меч: урон ', Weapons[6], ', стоимость 90 опыта');
+         end;
+         Readln(number);
+         case number of 
+           1:begin if PlayerExp >= 65 then begin
+             TextColor(green);
+             PlayerExp -= 65;
+             WeaponsIN[1] += 1;
+             WeaponsTO[1] += 1;
+             Writeln('Вы купили пушку!');
+             Writeln('У вас: ', PlayerExp, ' опыта');
+             end
+             else begin
+               TextColor(red);
+               Writeln('У вас не хватает средств !!!');
+             end;
+           end;
+           2:begin if PlayerExp >= 80 then begin
+             TextColor(green);
+             PlayerExp -= 80;
+             WeaponsIN[2] += 1;
+             WeaponsTO[2] += 1;
+             Writeln('Вы купили винтовку!');
+             Writeln('У вас: ', PlayerExp, ' опыта');
+             end
+             else begin
+               TextColor(red);
+               Writeln('У вас не хватает средств !!!');
+             end;
+           end;
+           3:begin if PlayerExp >= 50 then begin
+             TextColor(green);
+             PlayerExp -= 50;
+             WeaponsIN[3] += 1;
+             WeaponsTO[3] += 1;
+             Writeln('Вы купили катану!');
+             Writeln('У вас: ', PlayerExp, ' опыта');
+             end
+             else begin
+               TextColor(red);
+               Writeln('У вас не хватает средств !!!');
+             end;
+           end;
+           4:begin if PlayerExp >= 90 then begin
+             TextColor(green);
+             PlayerExp -= 90;
+             WeaponsIN[4] += 1;
+             WeaponsTO[4] += 1;
+             Writeln('Вы купили лазерный меч!');
+             Writeln('У вас: ', PlayerExp, ' опыта');
+             end
+             else begin
+               TextColor(red);
+               Writeln('У вас не хватает средств !!!');
+             end;
+           end;
+         end;
+       end;
       else begin 
               TextColor(Red);
               Writeln('Вы неправильно ввели ((');
@@ -886,12 +992,24 @@ begin
   Writeln('Оружие: ');
   Writeln('    Меч');
   Writeln('    Кинжал');
+  If WeaponsIN[1] > 0 then begin
+  Writeln('    Пушка')
+  end;
+  If WeaponsIN[2] > 0 then begin
+  Writeln('    Винтовка')
+  end;
+  If WeaponsIN[3] > 0 then begin
+  Writeln('    Катана')
+  end;
+  If WeaponsIN[4] > 0 then begin
+  Writeln('    Лазерный меч')
+  end;
   Writeln('Баночки: ');
   Writeln('    Количество баночек силы: ', BotleDamage);
   Writeln('    Кол-во баночек здоровья: '); 
-  Writeln('           Маленькая -', BotleHeal[1]);
-  Writeln('           Cредняя - ', BotleHeal[2]);
-  Writeln('           Большая - ', BotleHeal[3]);
+  Writeln('           Маленькая - ', BotleHeal[1]);
+  Writeln('           Cредняя -  ', BotleHeal[2]);
+  Writeln('           Большая -  ', BotleHeal[3]);
   Writeln('    Кол-во баночек силы оружия: ', BotleWeapon);
 end;
 
@@ -912,6 +1030,10 @@ procedure UpDamageWeap();
     Writeln('   Меч - ', Weapons[1], ' урона        +',WeaponUp);
     Writeln('   Кинжал - ', Weapons[2], ' урона     +',WeaponUp);
     Writeln('   Кулаки - ', PlayerDamage, ' урона     +1');
+    Writeln('   Пушка - ', Weapons[3], ' урона           +',WeaponUp);
+    Writeln('   Винтовка - ', Weapons[4], ' урона        +',WeaponUp);
+    Writeln('   Катана - ', Weapons[5], ' урона          +',WeaponUp);
+    Writeln('   Лазерный меч - ', Weapons[6], ' урона    +',WeaponUp);
     Readln(PlayerComand);
     Case PlayerComand of
       'Меч', 'меч', 'vtx', 'Vtx': Begin 
@@ -933,7 +1055,7 @@ procedure UpDamageWeap();
           begin
           Weapons[2] := Weapons[2] + WeaponUp;
           BotleWeapon:= BotleWeapon - 1;
-          WeaponDamage := Weapons[1];
+          WeaponDamage := Weapons[2];
           Writeln('У вас осталося: ',BotleWeapon);
           Writeln('Ваша характеристика: ',Weapons[2]);
           end
@@ -956,25 +1078,151 @@ procedure UpDamageWeap();
           Writeln('У вас нет нужного снаряжения');
           end;
           end;
+       'Пушка', 'пушка', 'Geirf', 'geirf': Begin 
+        If BotleWeapon > 0 then
+          begin
+          Weapons[3] := Weapons[3] + WeaponUp;
+          BotleWeapon:= BotleWeapon - 1;
+          WeaponDamage := Weapons[3];
+          Writeln('У вас осталося: ',BotleWeapon);
+          Writeln('Ваша характеристика: ',Weapons[3]);
+          end
+        else
+          begin
+          Writeln('У вас нет нужного снаряжения');
+          end;
+      end;
+      'Винтовка', 'винтовка', 'Dbynjdrf', 'dbynjdrf': Begin 
+        If BotleWeapon > 0 then
+          begin
+          Weapons[4] := Weapons[4] + WeaponUp;
+          BotleWeapon:= BotleWeapon - 1;
+          WeaponDamage := Weapons[4];
+          Writeln('У вас осталося: ',BotleWeapon);
+          Writeln('Ваша характеристика: ',Weapons[4]);
+          end
+        else
+          begin
+          Writeln('У вас нет нужного снаряжения');
+          end;
+      end;
+      'Катана', 'катана', 'Rfnfyf', 'rfnfyf': Begin 
+        If BotleWeapon > 0 then
+          begin
+          Weapons[5] := Weapons[5] + WeaponUp;
+          BotleWeapon:= BotleWeapon - 1;
+          WeaponDamage := Weapons[5];
+          Writeln('У вас осталося: ',BotleWeapon);
+          Writeln('Ваша характеристика: ',Weapons[5]);
+          end
+        else
+          begin
+          Writeln('У вас нет нужного снаряжения');
+          end;
+      end;
+      'Лазерный меч', 'лазерный меч', 'Kfpthysq vtx', 'kfpthysq vtx': Begin 
+        If BotleWeapon > 0 then
+          begin
+          Weapons[6] := Weapons[6] + WeaponUp;
+          BotleWeapon:= BotleWeapon - 1;
+          WeaponDamage := Weapons[6];
+          Writeln('У вас осталося: ',BotleWeapon);
+          Writeln('Ваша характеристика: ',Weapons[6]);
+          end
+        else
+          begin
+          Writeln('У вас нет нужного снаряжения');
+          end;
+      end;
     else Writeln('Ошибка');
       end;
     end;
-
+    
 //процедура для выбора оружия
 procedure weapon();
+var command:integer;
 begin
   TextColor(TextCL[4,1]);
   Writeln('Выбирите оружие: ');
-  Writeln('   Меч - ', Weapons[1], ' урона');
-  Writeln('   Кинжал - ', Weapons[2], ' урона');
+  Writeln('  1. Меч - ', Weapons[1], ' урона');
+  Writeln('  2. Кинжал - ', Weapons[2], ' урона');
 //PlayerDamage это урон от кулаков
-  Writeln('   Кулаки - ', PlayerDamage, ' урона');
+  Writeln('  3. Кулаки - ', PlayerDamage, ' урона');
+  if WeaponsIN[1] <= 0 then begin
+    TextColor(Red);
+    Writeln('  4. Пушка - ', Weapons[3],' урона');
+  end
+  else begin
+    TextColor(TextCL[4,1]);
+    Writeln('  4. Пушка - ', Weapons[3],' урона');
+  end;
+  if WeaponsIN[2] <= 0 then begin
+    TextColor(Red);
+    Writeln('  5. Винтовка - ', Weapons[4],' урона');
+  end
+  else begin
+    TextColor(TextCL[4,1]);
+    Writeln('  5. Винтовка - ', Weapons[4],' урона');
+  end;
+  if WeaponsIN[3] <= 0 then begin
+    TextColor(Red);
+    Writeln('  6. Катана - ', Weapons[5],' урона');
+  end
+  else begin
+    TextColor(TextCL[4,1]);
+    Writeln('  6. Катана - ', Weapons[5],' урона');
+  end;
+  if WeaponsIN[4] <= 0 then begin
+    TextColor(Red);
+    Writeln('  7. Лазерный меч - ', Weapons[6],' урона');
+  end
+  else begin
+    TextColor(TextCL[4,1]);
+    Writeln('  7. Лазерный меч - ', Weapons[6],' урона');
+  end;
+  TextColor(TextCL[4,1]);
   Write('Введите названия оружия: ');
-  Readln(PlayerComand);
-  Case PlayerComand of
-    'Меч', 'меч', 'vtx', 'Vtx': WeaponDamage:= Weapons[1];
-    'Кинжал', 'кинжал', 'rby;fk', 'Rby;fk': WeaponDamage:= Weapons[2];
-    'Кулаки', 'кулаки', 'rekfrb', 'Rekfrb': WeaponDamage:= PlayerDamage;
+  Readln(command);
+  Case command of
+    1: WeaponDamage:= Weapons[1];
+    2: WeaponDamage:= Weapons[2];
+    3: WeaponDamage := PlayerDamage;
+    4: begin
+      If WeaponsIN[1] > 0 then begin
+        WeaponDamage:= Weapons[3]; 
+        end
+        else begin
+          Writeln('Вы выбрали неправильно! Автоматически установлены кулаки');
+          WeaponDamage := PlayerDamage;
+          end
+    end;
+    5:begin
+      If WeaponsIN[2] > 0 then begin
+        WeaponDamage:= Weapons[4]; 
+        end
+        else begin
+          Writeln('Вы выбрали неправильно! Автоматически установлены кулаки');
+          WeaponDamage := PlayerDamage;
+          end
+    end;
+    6:begin
+      If WeaponsIN[3] > 0 then begin
+        WeaponDamage:= Weapons[5]; 
+        end
+        else begin
+          Writeln('Вы выбрали неправильно! Автоматически установлены кулаки');
+          WeaponDamage := PlayerDamage;
+          end
+    end;
+    7:begin
+      If WeaponsIN[4] > 0 then begin
+        WeaponDamage:= Weapons[6]; 
+        end
+        else begin
+          Writeln('Вы выбрали неправильно! Автоматически установлены кулаки');
+          WeaponDamage := PlayerDamage;
+          end
+    end;
   else Begin 
     Writeln('Вы выбрали неправильно! Автоматически установлен Меч');
     WeaponDamage:= Weapons[1];
@@ -1000,10 +1248,14 @@ begin
     1: begin
     TextColor(Green);
         PlayerHeal:=100;
-        PlayerDamage:=30;
+        PlayerDamage:=25;
         PlayerExp:= 0;
-        Weapons[1]:= 50;
-        Weapons[2]:= 35;
+        Weapons[1]:= 45;
+        Weapons[2] := 30;
+        Weapons[3] := 60;
+        Weapons[4] := 76;
+        Weapons[5] := 48;
+        Weapons[6] := 91;
         WeaponUp:= 8;
         BotleHeal[1]:= 3;
         BotleHeal[2]:= 2;
@@ -1016,8 +1268,12 @@ begin
         PlayerHeal:= 90;
         PlayerDamage:=20;
         PlayerExp:= 0;
-        Weapons[1]:= 45;
-        Weapons[2]:= 30;
+        Weapons[1]:= 39;
+        Weapons[2] := 25;
+        Weapons[3] := 55;
+        Weapons[4] := 69;
+        Weapons[5] := 43;
+        Weapons[6] := 85;
         WeaponUp:= 5;
         BotleHeal[1]:= 2;
         BotleHeal[2]:= 1;
@@ -1030,8 +1286,12 @@ begin
         PlayerHeal:=70;
         PlayerDamage:=10;
         PlayerExp:= 0;
-        Weapons[1]:= 40;
-        Weapons[2]:= 25;
+        Weapons[1]:= 30;
+        Weapons[2] := 25;
+        Weapons[3] := 35;
+        Weapons[4] := 48;
+        Weapons[5] := 29;
+        Weapons[6] := 79;
         WeaponUp:= 3;
         BotleHeal[1]:= 2;
         BotleHeal[2]:= 1;
@@ -1047,7 +1307,11 @@ begin
         PlayerDamage:=30;
         PlayerExp:= 0;
         Weapons[1]:= 50;
-        Weapons[2]:= 35;
+        Weapons[2] := 35;
+        Weapons[3] := 60;
+        Weapons[4] := 76;
+        Weapons[5] := 48;
+        Weapons[6] := 91;
         WeaponUp:= 8;
         BotleHeal[1]:= 3;
         BotleHeal[2]:= 2;
@@ -1125,7 +1389,7 @@ begin
      'Save', 'Сохранить', 'сохранить', 'Cj[hfybnm', 'cj[hfybnm': outSave();
      'Input','Загрузить','загрузить','pfuhepbnm','Pfuhepbnm': inSave();
      'О_программе','о_программе','J_ghjuhfvvt','j_ghjuhfvvt': about();
-     'Чит':Cheat();
+     'Чит', 'чит':Cheat();
      'Прощай','прощай','ghjofq','Ghjofq':conezAndSave();
     else TextColor(red);
          Writeln('Ошибка');

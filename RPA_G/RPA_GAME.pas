@@ -236,12 +236,6 @@ end;
 
 // Основная программа
 begin
-  BotleHeal[1]:= 3;
-  BotleHeal[2]:= 2;
-  BotleHeal[3]:= 1;
-  BotleDamage:=3;
-  BotleWeapon:= 3;
-  PlayerHeal:= 100;
   //Главнвя переменая для урона теперь WeaponDamage
   PlayerDamage:= 5;
   Writeln('------------------');
